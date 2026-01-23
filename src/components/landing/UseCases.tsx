@@ -7,7 +7,7 @@ const useCases = [
     companies: "Cursor, Windsurf, Cody",
     pain: "Lost context across sessions, repeated suggestions",
     value: "40% reduction in repeated suggestions, 3x faster context recovery",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-zinc-600 to-zinc-400",
   },
   {
     icon: Scale,
@@ -15,7 +15,7 @@ const useCases = [
     companies: "Harvey, Casetext, LexisNexis",
     pain: "No precedent tracking, temporal law changes",
     value: "60% faster research, accurate temporal legal advice",
-    color: "from-amber-500 to-orange-500",
+    color: "from-gray-700 to-gray-500",
   },
   {
     icon: FlaskConical,
@@ -23,7 +23,7 @@ const useCases = [
     companies: "Elicit, Consensus, Semantic Scholar",
     pain: "Can't synthesize hundreds of papers",
     value: "Cross-paper synthesis, automatic claim tracking",
-    color: "from-purple-500 to-pink-500",
+    color: "from-neutral-600 to-neutral-400",
   },
   {
     icon: TrendingUp,
@@ -31,7 +31,7 @@ const useCases = [
     companies: "Bloomberg, Kensho, Two Sigma",
     pain: "Market regime changes not tracked",
     value: "Real-time market regime memory, pattern evolution",
-    color: "from-green-500 to-emerald-500",
+    color: "from-stone-600 to-stone-400",
   },
   {
     icon: Headphones,
@@ -39,7 +39,7 @@ const useCases = [
     companies: "Intercom, Zendesk, Freshdesk",
     pain: "No memory of customer history",
     value: "Complete relationship memory, personalized support",
-    color: "from-rose-500 to-red-500",
+    color: "from-slate-600 to-slate-400",
   },
   {
     icon: Users,
@@ -47,7 +47,7 @@ const useCases = [
     companies: "Gong, Outreach, Salesloft",
     pain: "Lost deal context between calls",
     value: "Full conversation memory, deal intelligence",
-    color: "from-indigo-500 to-violet-500",
+    color: "from-zinc-700 to-zinc-500",
   },
 ];
 
