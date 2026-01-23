@@ -35,27 +35,27 @@ const socialLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="bg-secondary/50 border-t border-border">
+    <footer className="bg-secondary/80 border-t border-border/50 relative">
       <div className="section-container py-16">
         {/* Main footer content */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
           {/* Brand column */}
           <div className="col-span-2">
-            <a href="#" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-gradient-primary flex items-center justify-center">
-                <Brain className="w-5 h-5 text-primary-foreground" />
+            <a href="#" className="flex items-center gap-2.5 mb-5 group">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-foreground to-foreground/70 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                <Brain className="w-5 h-5 text-background" />
               </div>
               <span className="text-xl font-bold tracking-tight">MemSient</span>
             </a>
-            <p className="text-sm text-muted-foreground mb-6 max-w-xs">
+            <p className="text-sm text-muted-foreground mb-6 max-w-xs leading-relaxed">
               The Sentient Memory Platform for AI Agents. Memory is not storage — it's the foundation of intelligence.
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
-                  className="w-9 h-9 rounded-lg bg-secondary hover:bg-primary/10 flex items-center justify-center transition-colors"
+                  className="w-10 h-10 rounded-xl bg-secondary hover:bg-foreground/10 border border-border/50 hover:border-border flex items-center justify-center transition-all duration-200 hover:scale-105"
                   aria-label={social.label}
                 >
                   <social.icon className="w-4 h-4 text-muted-foreground" />
@@ -67,7 +67,7 @@ export const Footer = () => {
           {/* Link columns */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h4 className="font-semibold mb-4">{category}</h4>
+              <h4 className="font-semibold mb-4 text-sm">{category}</h4>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link.label}>
@@ -85,7 +85,7 @@ export const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} MemSient. All rights reserved.
           </p>
