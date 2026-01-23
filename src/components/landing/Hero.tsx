@@ -1,18 +1,154 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+import { useEffect, useRef } from "react";
+
+// Animated network graph component
+const NetworkGraph = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Set canvas size
+    const resize = () => {
+      canvas.width = canvas.offsetWidth * 2;
+      canvas.height = canvas.offsetHeight * 2;
+      ctx.scale(2, 2);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    // Node class
+    class Node {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      pulsePhase: number;
+      pulseSpeed: number;
+      brightness: number;
+
+      constructor(width: number, height: number) {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 3 + 2;
+        this.pulsePhase = Math.random() * Math.PI * 2;
+        this.pulseSpeed = Math.random() * 0.02 + 0.01;
+        this.brightness = Math.random() * 0.5 + 0.5;
+      }
+
+      update(width: number, height: number) {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.pulsePhase += this.pulseSpeed;
+
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+    }
+
+    const width = canvas.offsetWidth;
+    const height = canvas.offsetHeight;
+    const nodes: Node[] = Array.from({ length: 40 }, () => new Node(width, height));
+
+    let animationId: number;
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Update and draw connections
+      nodes.forEach((node, i) => {
+        node.update(width, height);
+
+        // Draw connections
+        nodes.slice(i + 1).forEach((other) => {
+          const dx = other.x - node.x;
+          const dy = other.y - node.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 120) {
+            const opacity = (1 - dist / 120) * 0.3;
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(other.x, other.y);
+            ctx.strokeStyle = `rgba(80, 80, 80, ${opacity})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        });
+      });
+
+      // Draw nodes with sparkle effect
+      nodes.forEach((node) => {
+        const pulse = Math.sin(node.pulsePhase) * 0.5 + 0.5;
+        const glowRadius = node.radius + pulse * 4;
+        const opacity = node.brightness * (0.6 + pulse * 0.4);
+
+        // Outer glow
+        const gradient = ctx.createRadialGradient(
+          node.x, node.y, 0,
+          node.x, node.y, glowRadius * 2
+        );
+        gradient.addColorStop(0, `rgba(60, 60, 60, ${opacity * 0.8})`);
+        gradient.addColorStop(0.5, `rgba(80, 80, 80, ${opacity * 0.3})`);
+        gradient.addColorStop(1, "rgba(100, 100, 100, 0)");
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, glowRadius * 2, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        // Core node
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(50, 50, 50, ${opacity})`;
+        ctx.fill();
+
+        // Sparkle highlight
+        if (pulse > 0.7) {
+          ctx.beginPath();
+          ctx.arc(node.x - node.radius * 0.3, node.y - node.radius * 0.3, node.radius * 0.3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(120, 120, 120, ${(pulse - 0.7) * 2})`;
+          ctx.fill();
+        }
+      });
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ opacity: 0.6 }}
+    />
+  );
+};
 
 export const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Background */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={heroBg}
-          alt=""
-          className="w-full h-full object-cover opacity-60"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
+      {/* Background gradient */}
+      <div className="absolute inset-0 z-0 bg-gradient-hero" />
+
+      {/* Animated network graph */}
+      <div className="absolute inset-0 z-[1]">
+        <NetworkGraph />
       </div>
 
       {/* Glow effect */}
