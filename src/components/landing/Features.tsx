@@ -54,10 +54,16 @@ const features = [
 
 export const Features = () => {
   return (
-    <section id="features" className="py-24">
-      <div className="section-container">
+    <section id="features" className="py-24 relative overflow-hidden">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--muted))_1px,transparent_1px)] bg-[size:24px_24px] opacity-40" />
+      
+      <div className="section-container relative z-10">
         {/* Section header */}
         <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary border border-border/50 mb-6">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Core Features</span>
+          </div>
           <h2 className="text-display mb-4">
             Cognitive Memory, <span className="gradient-text">Not Storage</span>
           </h2>
@@ -67,20 +73,25 @@ export const Features = () => {
         </div>
 
         {/* Features grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {features.map((feature, idx) => (
             <div
               key={feature.title}
-              className="feature-card group"
+              className="group relative bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border/50 hover:border-border transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
               style={{ animationDelay: `${idx * 50}ms` }}
             >
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <feature.icon className="w-6 h-6 text-primary" />
+              {/* Hover gradient overlay */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <div className="relative z-10">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <feature.icon className="w-6 h-6 text-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {feature.description}
-              </p>
             </div>
           ))}
         </div>

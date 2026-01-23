@@ -33,10 +33,16 @@ const steps = [
 
 export const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-24 bg-secondary/30">
-      <div className="section-container">
+    <section id="how-it-works" className="py-24 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-secondary/50 to-transparent" />
+      
+      <div className="section-container relative z-10">
         {/* Section header */}
         <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary border border-border/50 mb-6">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Process</span>
+          </div>
           <h2 className="text-display mb-4">
             How <span className="gradient-text">MemSient</span> Works
           </h2>
@@ -46,36 +52,41 @@ export const HowItWorks = () => {
         </div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, idx) => (
-            <div key={step.title} className="relative">
+            <div key={step.title} className="relative group">
               {/* Connector line */}
               {idx < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-border to-transparent z-0" />
+                <div className="hidden lg:block absolute top-14 left-full w-full h-px bg-gradient-to-r from-border via-border/50 to-transparent z-0" />
               )}
 
-              <div className="relative z-10 bg-card rounded-2xl border border-border p-6 shadow-soft h-full">
-                {/* Step number & icon */}
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center">
-                    <step.icon className="w-7 h-7 text-primary-foreground" />
+              <div className="relative z-10 bg-card/80 backdrop-blur-sm rounded-2xl border border-border/50 hover:border-border p-6 h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                {/* Hover gradient overlay */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <div className="relative z-10">
+                  {/* Step number & icon */}
+                  <div className="flex items-center gap-4 mb-5">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-foreground to-foreground/80 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
+                      <step.icon className="w-7 h-7 text-background" />
+                    </div>
+                    <span className="text-5xl font-bold text-border/60 group-hover:text-border transition-colors">{step.step}</span>
                   </div>
-                  <span className="text-4xl font-bold text-border">{step.step}</span>
+
+                  {/* Content */}
+                  <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-5">{step.description}</p>
+
+                  {/* Details */}
+                  <ul className="space-y-2.5">
+                    {step.details.map((detail) => (
+                      <li key={detail} className="flex items-center gap-2.5 text-sm">
+                        <div className="w-1.5 h-1.5 rounded-full bg-foreground/60" />
+                        <span className="text-muted-foreground">{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-
-                {/* Content */}
-                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{step.description}</p>
-
-                {/* Details */}
-                <ul className="space-y-2">
-                  {step.details.map((detail) => (
-                    <li key={detail} className="flex items-center gap-2 text-sm">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                      <span className="text-muted-foreground">{detail}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           ))}
