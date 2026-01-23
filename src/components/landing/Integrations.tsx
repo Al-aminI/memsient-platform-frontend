@@ -109,9 +109,9 @@ export const Integrations = () => {
                   {/* Header */}
                   <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-muted/50">
                     <div className="flex gap-1.5">
-                      <div className="w-3 h-3 rounded-full bg-destructive/60" />
-                      <div className="w-3 h-3 rounded-full bg-amber-500/60" />
-                      <div className="w-3 h-3 rounded-full bg-green-500/60" />
+                      <div className="w-3 h-3 rounded-full bg-muted-foreground/40" />
+                      <div className="w-3 h-3 rounded-full bg-muted-foreground/30" />
+                      <div className="w-3 h-3 rounded-full bg-muted-foreground/20" />
                     </div>
                     <span className="text-xs text-muted-foreground font-mono ml-2">
                       {key === "python" && "example.py"}
