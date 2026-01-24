@@ -3,16 +3,22 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
 export const ThemeToggle = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true); // Default to dark mode
 
   useEffect(() => {
-    // Check for saved preference or system preference
+    // Check for saved preference, default to dark if none
     const savedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     
-    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+    if (savedTheme === "light") {
+      setIsDark(false);
+      document.documentElement.classList.remove("dark");
+    } else {
+      // Default to dark mode (either saved as "dark" or no preference)
       setIsDark(true);
       document.documentElement.classList.add("dark");
+      if (!savedTheme) {
+        localStorage.setItem("theme", "dark");
+      }
     }
   }, []);
 
