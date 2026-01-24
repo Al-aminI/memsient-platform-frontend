@@ -5,6 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { AppLayout } from "./components/app/AppLayout";
+import Dashboard from "./pages/app/Dashboard";
+import QueryInterface from "./pages/app/QueryInterface";
+import Documentation from "./pages/app/Documentation";
+import ApiKeys from "./pages/app/ApiKeys";
+import Billing from "./pages/app/Billing";
+import Settings from "./pages/app/Settings";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +23,17 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          
+          {/* App Routes with Sidebar Layout */}
+          <Route path="/app" element={<AppLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="query" element={<QueryInterface />} />
+            <Route path="docs" element={<Documentation />} />
+            <Route path="api-keys" element={<ApiKeys />} />
+            <Route path="billing" element={<Billing />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
