@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { 
   Send, 
   Upload, 
@@ -17,7 +19,9 @@ import {
   Loader2,
   CheckCircle,
   Clock,
-  ChevronRight
+  ChevronRight,
+  Info,
+  Tag
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -68,13 +72,80 @@ const mockSources: Source[] = [
   },
 ];
 
+// Mock memory data - in production, this would come from an API
+const mockMemories: Record<string, any> = {
+  mem_1: {
+    id: "mem_1",
+    title: "Acme Corp",
+    type: "Company",
+    description: "Technology company specializing in AI solutions. Founded in 2020.",
+    tags: ["technology", "AI", "enterprise"]
+  },
+  mem_2: {
+    id: "mem_2",
+    title: "Jane Smith",
+    type: "Person",
+    description: "CEO of Acme Corp since 2022. Previously worked at TechGiant.",
+    tags: ["executive", "leadership"]
+  },
+  mem_3: {
+    id: "mem_3",
+    title: "Q4 2024 Revenue Target",
+    type: "Concept",
+    description: "Revenue target of $50M for Q4 2024, up 23% from previous quarter.",
+    tags: ["financial", "targets", "Q4"]
+  },
+  mem_4: {
+    id: "mem_4",
+    title: "TechStart Inc Acquisition",
+    type: "Event",
+    description: "Acquisition of TechStart Inc for $800M. Expected to close in Q1 2025.",
+    tags: ["acquisition", "M&A", "Q1-2025"]
+  },
+  mem_5: {
+    id: "mem_5",
+    title: "API Authentication Flow",
+    type: "Concept",
+    description: "OAuth 2.0 based authentication flow with JWT tokens for API access.",
+    tags: ["API", "authentication", "security"]
+  },
+  mem_6: {
+    id: "mem_6",
+    title: "Sarah Chen",
+    type: "Person",
+    description: "VP Product at Acme Corp. Leads product strategy and roadmap.",
+    tags: ["product", "leadership"]
+  },
+};
+
 export default function QueryInterface() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const memoryId = searchParams.get("memoryId");
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [connectedSources, setConnectedSources] = useState<ConnectedSource[]>([]);
   const [githubUrl, setGithubUrl] = useState("");
   const { toast } = useToast();
+
+  const currentMemory = memoryId ? mockMemories[memoryId] : null;
+
+  // Initialize with a welcome message about the memory if one is selected
+  useEffect(() => {
+    if (currentMemory) {
+      const welcomeMessage: Message = {
+        id: `welcome-${memoryId}`,
+        role: "assistant",
+        content: `I'm ready to help you explore information about "${currentMemory.title}". This is a ${currentMemory.type} in your knowledge graph.\n\n${currentMemory.description}\n\nWhat would you like to know about ${currentMemory.title}?`,
+        timestamp: new Date(),
+      };
+      setMessages([welcomeMessage]);
+    } else if (!memoryId && messages.length > 0 && messages[0]?.id?.startsWith("welcome-")) {
+      // Clear welcome message if memory context is removed
+      setMessages([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [memoryId]);
 
   const handleSendQuery = async () => {
     if (!query.trim()) return;
@@ -87,17 +158,28 @@ export default function QueryInterface() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentQuery = query;
     setQuery("");
     setIsLoading(true);
 
     // Simulate API response
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
+    // Generate response with memory context if available
+    let responseContent = "";
+    if (currentMemory) {
+      responseContent = `Based on the memory about "${currentMemory.title}" (${currentMemory.type}), here's what I found regarding "${currentQuery}":\n\n`;
+      responseContent += `${currentMemory.description}\n\n`;
+      responseContent += `I can provide more details about ${currentMemory.title} and its relationships in your knowledge graph. What specific aspect would you like to explore further?`;
+    } else {
+      responseContent = `Based on your connected sources, here's what I found regarding "${currentQuery}":\n\nThe Q4 2024 revenue reached $5.2B, representing a 23% year-over-year increase. This growth was primarily driven by the TechStart acquisition which contributed $200M to the total revenue.\n\nThe authentication flow in your codebase uses JWT tokens with a standard verification process. The auth.ts file handles token validation and user session management.\n\nFor future developments, the product roadmap indicates Phase 3 will focus on skill acquisition, scheduled for Q2 2025.`;
+    }
+
     const assistantMessage: Message = {
       id: (Date.now() + 1).toString(),
       role: "assistant",
-      content: `Based on your connected sources, here's what I found regarding "${userMessage.content}":\n\nThe Q4 2024 revenue reached $5.2B, representing a 23% year-over-year increase. This growth was primarily driven by the TechStart acquisition which contributed $200M to the total revenue.\n\nThe authentication flow in your codebase uses JWT tokens with a standard verification process. The auth.ts file handles token validation and user session management.\n\nFor future developments, the product roadmap indicates Phase 3 will focus on skill acquisition, scheduled for Q2 2025.`,
-      sources: mockSources,
+      content: responseContent,
+      sources: currentMemory ? [] : mockSources,
       timestamp: new Date(),
     };
 
@@ -166,21 +248,21 @@ export default function QueryInterface() {
   };
 
   return (
-    <div className="h-[calc(100vh-7rem)] flex gap-4">
+    <div className="flex h-full flex-col gap-4 lg:flex-row">
       {/* Left Panel - Sources */}
-      <Card className="w-80 shrink-0 flex flex-col">
+      <Card className="flex w-full shrink-0 flex-col lg:w-80 lg:max-w-sm">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg">Knowledge Sources</CardTitle>
           <CardDescription>Add documents or connect repositories</CardDescription>
         </CardHeader>
-        <CardContent className="flex-1 flex flex-col gap-4">
-          <Tabs defaultValue="documents" className="flex-1 flex flex-col">
+        <CardContent className="flex min-h-0 flex-1 flex-col gap-4">
+          <Tabs defaultValue="documents" className="flex min-h-0 flex-1 flex-col">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="documents">Documents</TabsTrigger>
               <TabsTrigger value="github">GitHub</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="documents" className="flex-1 flex flex-col gap-3 mt-3">
+            <TabsContent value="documents" className="flex min-h-0 flex-1 flex-col gap-3 mt-3">
               <label className="cursor-pointer">
                 <input
                   type="file"
@@ -197,7 +279,7 @@ export default function QueryInterface() {
               </label>
             </TabsContent>
 
-            <TabsContent value="github" className="flex-1 flex flex-col gap-3 mt-3">
+            <TabsContent value="github" className="flex min-h-0 flex-1 flex-col gap-3 mt-3">
               <div className="space-y-2">
                 <div className="flex gap-2">
                   <Input
@@ -219,9 +301,9 @@ export default function QueryInterface() {
 
           {/* Connected Sources List */}
           {connectedSources.length > 0 && (
-            <div className="space-y-2">
+            <div className="flex min-h-0 flex-1 flex-col space-y-2">
               <p className="text-sm font-medium">Connected Sources</p>
-              <ScrollArea className="h-48">
+              <ScrollArea className="flex-1">
                 <div className="space-y-2 pr-2">
                   {connectedSources.map((source) => (
                     <div
@@ -257,21 +339,61 @@ export default function QueryInterface() {
       </Card>
 
       {/* Main Chat Area */}
-      <Card className="flex-1 flex flex-col">
-        <CardHeader className="pb-3 border-b">
-          <div className="flex items-center justify-between">
+      <Card className="flex min-h-0 flex-1 flex-col">
+        <CardHeader className="shrink-0 border-b pb-3 space-y-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <CardTitle className="text-lg">Query Interface</CardTitle>
-              <CardDescription>Ask questions about your connected sources</CardDescription>
+              <CardDescription>
+                {currentMemory 
+                  ? `Chatting about ${currentMemory.title}` 
+                  : "Ask questions about your connected sources"}
+              </CardDescription>
             </div>
-            <Badge variant="outline">
+            <Badge variant="outline" className="w-fit">
               {connectedSources.filter((s) => s.status === "ready").length} sources ready
             </Badge>
           </div>
+
+          {/* Memory Context Banner */}
+          {/* {currentMemory && (
+            <Alert className="bg-primary/5 border-primary/20">
+              <Info className="h-4 w-4 text-primary" />
+              <AlertTitle className="flex items-center gap-2">
+                <span>{currentMemory.title}</span>
+                <Badge variant="outline" className="text-xs">
+                  {currentMemory.type}
+                </Badge>
+              </AlertTitle>
+              <AlertDescription className="mt-1">
+                <p className="text-sm mb-2">{currentMemory.description}</p>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Tag className="h-3 w-3 text-muted-foreground" />
+                  {currentMemory.tags.map((tag: string, idx: number) => (
+                    <Badge key={idx} variant="secondary" className="text-xs px-1.5 py-0 h-5">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="mt-2 h-7 text-xs"
+                  onClick={() => {
+                    setSearchParams({});
+                    setMessages([]);
+                  }}
+                >
+                  <X className="h-3 w-3 mr-1" />
+                  Clear memory context
+                </Button>
+              </AlertDescription>
+            </Alert>
+          )} */}
         </CardHeader>
 
         {/* Messages */}
-        <ScrollArea className="flex-1 p-4">
+        <ScrollArea className="flex-1 min-h-0 p-4">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-center">
               <div>
@@ -360,10 +482,14 @@ export default function QueryInterface() {
         </ScrollArea>
 
         {/* Input */}
-        <div className="p-4 border-t">
+        <div className="shrink-0 border-t p-4">
           <div className="flex gap-2">
             <Textarea
-              placeholder="Ask a question about your connected sources..."
+              placeholder={
+                currentMemory
+                  ? `Ask a question about ${currentMemory.title}...`
+                  : "Ask a question about your connected sources..."
+              }
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => {
@@ -376,7 +502,7 @@ export default function QueryInterface() {
             />
             <Button
               size="icon"
-              className="h-[60px] w-[60px]"
+              className="h-[60px] shrink-0 w-[60px]"
               onClick={handleSendQuery}
               disabled={!query.trim() || isLoading}
             >

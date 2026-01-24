@@ -1,187 +1,372 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { 
-  Activity, 
   Brain, 
-  FileText, 
-  Zap, 
-  TrendingUp,
-  Clock,
-  ArrowRight
+  Search,
+  Plus,
+  Filter,
+  MoreVertical,
+  Calendar,
+  Tag,
+  Link as LinkIcon,
+  Trash2,
+  Eye,
+  RefreshCw
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const stats = [
+// Mock data - replace with actual API calls
+const mockMemories = [
   {
-    title: "API Requests",
-    value: "24,892",
-    change: "+12%",
-    icon: Activity,
-    description: "This month"
+    id: "mem_1",
+    title: "Acme Corp",
+    type: "Company",
+    description: "Technology company specializing in AI solutions. Founded in 2020.",
+    createdAt: "2024-01-15T10:30:00Z",
+    updatedAt: "2024-01-20T14:22:00Z",
+    importance: "high",
+    relationships: 12,
+    tags: ["technology", "AI", "enterprise"]
   },
   {
-    title: "Documents",
-    value: "156",
-    change: "+8",
-    icon: FileText,
-    description: "Ingested"
+    id: "mem_2",
+    title: "Jane Smith",
+    type: "Person",
+    description: "CEO of Acme Corp since 2022. Previously worked at TechGiant.",
+    createdAt: "2024-01-10T09:15:00Z",
+    updatedAt: "2024-01-18T16:45:00Z",
+    importance: "critical",
+    relationships: 8,
+    tags: ["executive", "leadership"]
   },
   {
-    title: "Skills Acquired",
-    value: "42",
-    change: "+5",
-    icon: Brain,
-    description: "Active skills"
+    id: "mem_3",
+    title: "Q4 2024 Revenue Target",
+    type: "Concept",
+    description: "Revenue target of $50M for Q4 2024, up 23% from previous quarter.",
+    createdAt: "2024-01-12T11:20:00Z",
+    updatedAt: "2024-01-12T11:20:00Z",
+    importance: "high",
+    relationships: 5,
+    tags: ["financial", "targets", "Q4"]
   },
   {
-    title: "Avg Response",
-    value: "45ms",
-    change: "-8ms",
-    icon: Zap,
-    description: "p99 latency"
+    id: "mem_4",
+    title: "TechStart Inc Acquisition",
+    type: "Event",
+    description: "Acquisition of TechStart Inc for $800M. Expected to close in Q1 2025.",
+    createdAt: "2024-01-14T13:00:00Z",
+    updatedAt: "2024-01-19T10:30:00Z",
+    importance: "high",
+    relationships: 6,
+    tags: ["acquisition", "M&A", "Q1-2025"]
+  },
+  {
+    id: "mem_5",
+    title: "API Authentication Flow",
+    type: "Concept",
+    description: "OAuth 2.0 based authentication flow with JWT tokens for API access.",
+    createdAt: "2024-01-08T08:00:00Z",
+    updatedAt: "2024-01-15T12:00:00Z",
+    importance: "medium",
+    relationships: 4,
+    tags: ["API", "authentication", "security"]
+  },
+  {
+    id: "mem_6",
+    title: "Sarah Chen",
+    type: "Person",
+    description: "VP Product at Acme Corp. Leads product strategy and roadmap.",
+    createdAt: "2024-01-11T14:30:00Z",
+    updatedAt: "2024-01-11T14:30:00Z",
+    importance: "medium",
+    relationships: 3,
+    tags: ["product", "leadership"]
   },
 ];
 
-const recentQueries = [
-  { query: "What are the Q4 revenue projections?", time: "2 min ago", sources: 3 },
-  { query: "Show me the API authentication flow", time: "15 min ago", sources: 5 },
-  { query: "Compare user engagement metrics", time: "1 hour ago", sources: 7 },
-  { query: "List all active integrations", time: "2 hours ago", sources: 2 },
-];
+const memoryTypes = ["All", "Company", "Person", "Concept", "Event", "Document"];
+const importanceLevels = ["All", "Critical", "High", "Medium", "Low"];
 
 export default function Dashboard() {
-  const usagePercent = 68;
+  const navigate = useNavigate();
+  const [memories, setMemories] = useState(mockMemories);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState("All");
+  const [importanceFilter, setImportanceFilter] = useState("All");
+
+  const handleMemoryClick = (memoryId: string) => {
+    navigate(`/app/query?memoryId=${memoryId}`);
+  };
+
+  const filteredMemories = memories.filter((memory) => {
+    const matchesSearch = 
+      memory.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      memory.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      memory.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    const matchesType = typeFilter === "All" || memory.type === typeFilter;
+    const matchesImportance = 
+      importanceFilter === "All" || 
+      memory.importance === importanceFilter.toLowerCase();
+
+    return matchesSearch && matchesType && matchesImportance;
+  });
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+      return "Today";
+    } else if (diffDays === 1) {
+      return "Yesterday";
+    } else if (diffDays < 7) {
+      return `${diffDays} days ago`;
+    } else {
+      return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    }
+  };
+
+  const getImportanceColor = (importance: string) => {
+    switch (importance) {
+      case "critical":
+        return "bg-red-500/10 text-red-500 border-red-500/20";
+      case "high":
+        return "bg-orange-500/10 text-orange-500 border-orange-500/20";
+      case "medium":
+        return "bg-blue-500/10 text-blue-500 border-blue-500/20";
+      case "low":
+        return "bg-gray-500/10 text-gray-500 border-gray-500/20";
+      default:
+        return "bg-gray-500/10 text-gray-500 border-gray-500/20";
+    }
+  };
+
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case "Company":
+        return "🏢";
+      case "Person":
+        return "👤";
+      case "Event":
+        return "📅";
+      case "Concept":
+        return "💡";
+      case "Document":
+        return "📄";
+      default:
+        return "🧠";
+    }
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 h-full flex flex-col">
       {/* Header */}
-      <div className="flex flex-col gap-2">
-        <h1 className="text-heading">Dashboard</h1>
-        <p className="text-body">Monitor your memory usage and activity</p>
+      <div className="flex flex-col gap-2 shrink-0">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-heading">Memories</h1>
+            <p className="text-body">View and manage your knowledge graph</p>
       </div>
-
-      {/* Stats Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.title}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {stat.title}
-              </CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <div className="flex items-center gap-2 text-xs">
-                <Badge variant="secondary" className="text-xs">
-                  <TrendingUp className="mr-1 h-3 w-3" />
-                  {stat.change}
-                </Badge>
-                <span className="text-muted-foreground">{stat.description}</span>
+          <Button>
+            <Plus className="mr-2 h-4 w-4" />
+            Create Memory
+          </Button>
               </div>
-            </CardContent>
-          </Card>
-        ))}
       </div>
 
-      {/* Usage & Activity Row */}
-      <div className="grid gap-4 lg:grid-cols-2">
-        {/* Usage Overview */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Usage This Month</CardTitle>
-            <CardDescription>24,892 of 100,000 API requests used</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Progress value={usagePercent} className="h-2" />
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">{usagePercent}% used</span>
-              <span className="text-muted-foreground">Resets in 12 days</span>
+      {/* Filters and Search */}
+      <Card className="shrink-0">
+        <CardContent className="pt-6">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center">
+            {/* Search */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search memories..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9"
+              />
             </div>
-            <div className="pt-4 border-t">
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <p className="text-2xl font-bold">156</p>
-                  <p className="text-xs text-muted-foreground">Documents</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">1.2GB</p>
-                  <p className="text-xs text-muted-foreground">Storage</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">3</p>
-                  <p className="text-xs text-muted-foreground">Projects</p>
-                </div>
-              </div>
+
+            {/* Type Filter */}
+            <Select value={typeFilter} onValueChange={setTypeFilter}>
+              <SelectTrigger className="w-full md:w-[180px]">
+                <Filter className="mr-2 h-4 w-4" />
+                <SelectValue placeholder="Filter by type" />
+              </SelectTrigger>
+              <SelectContent>
+                {memoryTypes.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Importance Filter */}
+            <Select value={importanceFilter} onValueChange={setImportanceFilter}>
+              <SelectTrigger className="w-full md:w-[180px]">
+                <SelectValue placeholder="Filter by importance" />
+              </SelectTrigger>
+              <SelectContent>
+                {importanceLevels.map((level) => (
+                  <SelectItem key={level} value={level}>
+                    {level}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             </div>
           </CardContent>
         </Card>
 
-        {/* Recent Queries */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
+      {/* Memories List */}
+      <Card className="flex-1 min-h-0 flex flex-col">
+        <CardHeader className="shrink-0">
+          <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Recent Queries</CardTitle>
-              <CardDescription>Latest memory queries</CardDescription>
+              <CardTitle>All Memories</CardTitle>
+              <CardDescription>
+                {filteredMemories.length} {filteredMemories.length === 1 ? "memory" : "memories"} found
+              </CardDescription>
             </div>
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/app/query">
-                View all <ArrowRight className="ml-1 h-4 w-4" />
-              </Link>
+            <Button variant="ghost" size="sm">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Refresh
             </Button>
+          </div>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentQueries.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shrink-0">
-                    <Brain className="w-4 h-4 text-muted-foreground" />
+        <CardContent className="flex-1 overflow-y-auto p-0">
+          {filteredMemories.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full py-12 px-4">
+              <Brain className="h-12 w-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-medium mb-2">No memories found</h3>
+              <p className="text-sm text-muted-foreground text-center max-w-sm">
+                {searchQuery || typeFilter !== "All" || importanceFilter !== "All"
+                  ? "Try adjusting your filters to see more results"
+                  : "Get started by creating your first memory"}
+              </p>
+              {!searchQuery && typeFilter === "All" && importanceFilter === "All" && (
+                <Button className="mt-4">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create Memory
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="divide-y">
+              {filteredMemories.map((memory) => (
+                <div
+                  key={memory.id}
+                  onClick={() => handleMemoryClick(memory.id)}
+                  className="p-4 hover:bg-muted/50 transition-colors cursor-pointer group"
+                >
+                  <div className="flex items-start gap-4">
+                    {/* Icon */}
+                    <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center shrink-0 text-lg">
+                      {getTypeIcon(memory.type)}
                   </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-4 mb-2">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{item.query}</p>
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                      <Clock className="h-3 w-3" />
-                      {item.time}
-                      <span>•</span>
-                      <span>{item.sources} sources</span>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-semibold text-base truncate">{memory.title}</h3>
+                            <Badge variant="outline" className="text-xs">
+                              {memory.type}
+                            </Badge>
+                            <Badge
+                              variant="outline"
+                              className={`text-xs capitalize ${getImportanceColor(memory.importance)}`}
+                            >
+                              {memory.importance}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground line-clamp-2 mb-2">
+                            {memory.description}
+                          </p>
+                        </div>
+
+                        {/* Actions */}
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                            <DropdownMenuItem onClick={() => handleMemoryClick(memory.id)}>
+                              <Eye className="mr-2 h-4 w-4" />
+                              Chat with Memory
+                            </DropdownMenuItem>
+                            {/* <DropdownMenuItem>
+                              <LinkIcon className="mr-2 h-4 w-4" />
+                              View Relationships
+                            </DropdownMenuItem> */}
+                            <DropdownMenuItem className="text-destructive">
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+
+                      {/* Metadata */}
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          <span>Updated {formatDate(memory.updatedAt)}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <LinkIcon className="h-3 w-3" />
+                          <span>{memory.relationships} relationships</span>
+                        </div>
+                        <div className="flex items-center gap-1 flex-wrap">
+                          <Tag className="h-3 w-3" />
+                          {memory.tags.map((tag, idx) => (
+                            <Badge
+                              key={idx}
+                              variant="secondary"
+                              className="text-xs px-1.5 py-0 h-5"
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Common tasks to get started</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-4 md:grid-cols-3">
-            <Button variant="outline" className="h-auto py-4 flex-col gap-2" asChild>
-              <Link to="/app/query">
-                <Brain className="h-6 w-6" />
-                <span>Query Memory</span>
-              </Link>
-            </Button>
-            <Button variant="outline" className="h-auto py-4 flex-col gap-2" asChild>
-              <Link to="/app/api-keys">
-                <Zap className="h-6 w-6" />
-                <span>Create API Key</span>
-              </Link>
-            </Button>
-            <Button variant="outline" className="h-auto py-4 flex-col gap-2" asChild>
-              <Link to="/app/docs">
-                <FileText className="h-6 w-6" />
-                <span>View Docs</span>
-              </Link>
-            </Button>
-          </div>
+          )}
         </CardContent>
       </Card>
     </div>

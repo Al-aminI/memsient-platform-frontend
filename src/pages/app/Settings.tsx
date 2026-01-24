@@ -44,7 +44,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-heading">Settings</h1>

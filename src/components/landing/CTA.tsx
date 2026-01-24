@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const CTA = () => {
   return (
@@ -32,12 +33,16 @@ export const CTA = () => {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" className="h-14 px-8 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              Start Building Free
-              <ArrowRight className="w-5 h-5 ml-2" />
+            <Button size="lg" className="h-14 px-8 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" asChild>
+              <Link to="/signup">
+                Start Building Free
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
             </Button>
-            <Button variant="outline" size="lg" className="h-14 px-8 text-base font-medium border-foreground/20 hover:bg-foreground/5">
-              Schedule a Demo
+            <Button variant="outline" size="lg" className="h-14 px-8 text-base font-medium border-foreground/20 hover:bg-foreground/5" asChild>
+              <Link to="/login">
+                Schedule a Demo
+              </Link>
             </Button>
           </div>
 

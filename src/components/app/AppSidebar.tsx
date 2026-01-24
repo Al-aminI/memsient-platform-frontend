@@ -4,7 +4,6 @@ import {
   Key, 
   CreditCard, 
   MessageSquare, 
-  Settings,
   Brain,
   ChevronLeft
 } from "lucide-react";
@@ -34,7 +33,6 @@ const mainItems = [
 const settingsItems = [
   { title: "API Keys", url: "/app/api-keys", icon: Key },
   { title: "Billing", url: "/app/billing", icon: CreditCard },
-  { title: "Settings", url: "/app/settings", icon: Settings },
 ];
 
 export function AppSidebar() {

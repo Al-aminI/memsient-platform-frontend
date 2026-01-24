@@ -7,16 +7,16 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 export function AppLayout() {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="flex h-screen w-full overflow-hidden">
         <AppSidebar />
-        <SidebarInset className="flex-1">
-          <header className="flex h-14 items-center gap-4 border-b border-border px-4 lg:px-6">
+        <SidebarInset className="flex flex-1 flex-col overflow-hidden">
+          <header className="flex h-14 shrink-0 items-center gap-4 border-b border-border px-4 lg:px-6">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="h-6" />
             <div className="flex-1" />
             <ThemeToggle />
           </header>
-          <main className="flex-1 p-4 lg:p-6">
+          <main className="flex-1 overflow-y-auto p-4 lg:p-6">
             <Outlet />
           </main>
         </SidebarInset>

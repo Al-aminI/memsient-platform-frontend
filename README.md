@@ -1,73 +1,101 @@
-# Welcome to your Lovable project
+# MemSient - AI Memory Platform
 
-## Project info
+MemSient is the ultimate human cognitive memory system for AI agents. Build AI agents that truly remember, think, and evolve.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Living Memory**: AI memory that thinks, learns, and evolves like a human brain
+- **Skill Acquisition**: Agents acquire skills through experience
+- **Graph-Based Storage**: Efficient knowledge graph storage and retrieval
+- **Temporal Awareness**: Memory with time-based relationships and evolution
+- **Multi-Tenant**: Isolated memory sessions per user/tenant
+- **High Performance**: Built with Rust core for optimal performance
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
+## Tech Stack
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Vite** - Fast build tool and dev server
+- **TypeScript** - Type-safe JavaScript
+- **React** - UI framework
+- **React Router** - Client-side routing
+- **shadcn-ui** - Beautiful UI components
+- **Tailwind CSS** - Utility-first CSS framework
+- **TanStack Query** - Data fetching and caching
 
-## How can I deploy this project?
+## Getting Started
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### Prerequisites
 
-## Can I connect a custom domain to my Lovable project?
+- Node.js 18+ and npm (install with [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
 
-Yes, you can!
+### Installation
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```sh
+# Step 1: Navigate to the project directory
+cd memsient
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+# Step 2: Install dependencies
+npm install
+
+# Step 3: Start the development server
+npm run dev
+```
+
+The app will be available at `http://localhost:8080`
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run build:dev` - Build in development mode
+- `npm run preview` - Preview production build locally
+- `npm run lint` - Run ESLint
+- `npm run test` - Run tests
+- `npm run test:watch` - Run tests in watch mode
+
+## Deployment
+
+### Netlify
+
+The project includes a `public/_redirects` file for Netlify deployment. All routes will be redirected to `index.html` for proper SPA routing.
+
+### Vercel
+
+The project includes a `vercel.json` configuration file. Deploy directly to Vercel and routing will work automatically.
+
+### Docker / Nginx
+
+For Docker deployments, use the included `nginx.conf` file. It's configured to serve the SPA correctly with all routes falling back to `index.html`.
+
+### Build Output
+
+After running `npm run build`, the `dist/` directory contains the production-ready files that can be served by any static file server.
+
+## Project Structure
+
+```
+memsient/
+├── public/          # Static assets
+├── src/
+│   ├── components/   # React components
+│   ├── pages/        # Page components
+│   ├── hooks/        # Custom React hooks
+│   ├── lib/          # Utility functions
+│   └── App.tsx       # Main app component
+├── index.html        # HTML template
+└── vite.config.ts    # Vite configuration
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## License
+
+See LICENSE file for details.

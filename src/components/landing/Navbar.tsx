@@ -19,12 +19,12 @@ export const Navbar = () => {
       <div className="section-container">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5 group">
+          <Link to="/" className="flex items-center gap-2.5 group">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-foreground to-foreground/70 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
               <Brain className="w-5 h-5 text-background" />
             </div>
             <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">MemSient</span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
@@ -43,10 +43,10 @@ export const Navbar = () => {
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
             <Button variant="ghost" size="sm" className="font-medium" asChild>
-              <Link to="/app">Sign In</Link>
+              <Link to="/login">Sign In</Link>
             </Button>
             <Button size="sm" className="font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" asChild>
-              <Link to="/app">Get Started</Link>
+              <Link to="/signup">Get Started</Link>
             </Button>
           </div>
 
@@ -78,10 +78,10 @@ export const Navbar = () => {
               ))}
               <div className="flex flex-col gap-2 mt-4 px-4">
                 <Button variant="ghost" size="sm" className="w-full font-medium" asChild>
-                  <Link to="/app">Sign In</Link>
+                  <Link to="/login">Sign In</Link>
                 </Button>
                 <Button size="sm" className="w-full font-medium shadow-lg" asChild>
-                  <Link to="/app">Get Started</Link>
+                  <Link to="/signup">Get Started</Link>
                 </Button>
               </div>
             </div>

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 // Animated network graph component
 const NetworkGraph = () => {
@@ -219,13 +220,17 @@ export const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-up delay-300">
-            <Button size="lg" className="h-14 px-8 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              Start Building Free
-              <ArrowRight className="w-5 h-5 ml-2" />
+            <Button size="lg" className="h-14 px-8 text-base font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" asChild>
+              <Link to="/signup">
+                Start Building Free
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
             </Button>
-            <Button variant="outline" size="lg" className="h-14 px-8 text-base font-medium border-foreground/20 hover:bg-foreground/5">
-              <Play className="w-5 h-5 mr-2" />
-              Watch Demo
+            <Button variant="outline" size="lg" className="h-14 px-8 text-base font-medium border-foreground/20 hover:bg-foreground/5" asChild>
+              <Link to="/login">
+                <Play className="w-5 h-5 mr-2" />
+                Watch Demo
+              </Link>
             </Button>
           </div>
 

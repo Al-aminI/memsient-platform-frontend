@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <!-- Gradient matching header: bg-gradient-to-br from-foreground to-foreground/70 -->
+    <!-- Foreground is dark grey (#1f1f1f), so gradient goes from dark to slightly lighter dark -->
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1f1f1f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1f1f1f;stop-opacity:0.7" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded square background (rounded-xl = 12px radius on 40px square = ~30% radius) -->
+  <rect x="10" y="10" width="80" height="80" rx="24" fill="url(#logoGrad)"/>
+  
+  <!-- Brain icon - simplified lucide-react Brain shape -->
+  <!-- Main brain outline -->
+  <path d="M 30 35 
+           C 25 38, 25 45, 28 50
+           C 26 54, 28 58, 31 56
+           C 33 59, 36 57, 35 61
+           C 38 64, 42 62, 40 66
+           C 43 68, 47 66, 45 69
+           C 48 70, 50 68, 50 65
+           Z" 
+        fill="white" stroke="none"/>
+  
+  <path d="M 70 35 
+           C 75 38, 75 45, 72 50
+           C 74 54, 72 58, 69 56
+           C 67 59, 64 57, 65 61
+           C 62 64, 58 62, 60 66
+           C 57 68, 53 66, 55 69
+           C 52 70, 50 68, 50 65
+           Z" 
+        fill="white" stroke="none"/>
+  
+  <!-- Neural network connections (subtle lines) -->
+  <line x1="38" y1="48" x2="50" y2="48" stroke="white" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+  <line x1="50" y1="48" x2="62" y2="48" stroke="white" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+  <line x1="40" y1="58" x2="50" y2="58" stroke="white" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+  <line x1="50" y1="58" x2="60" y2="58" stroke="white" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+</svg>
