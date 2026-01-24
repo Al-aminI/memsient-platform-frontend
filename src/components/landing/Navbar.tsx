@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Brain } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
-
 const navLinks = [
   { href: "#features", label: "Features" },
   { href: "#how-it-works", label: "How It Works" },
@@ -42,11 +42,11 @@ export const Navbar = () => {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
-            <Button variant="ghost" size="sm" className="font-medium">
-              Sign In
+            <Button variant="ghost" size="sm" className="font-medium" asChild>
+              <Link to="/app">Sign In</Link>
             </Button>
-            <Button size="sm" className="font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              Get Started
+            <Button size="sm" className="font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105" asChild>
+              <Link to="/app">Get Started</Link>
             </Button>
           </div>
 
@@ -77,11 +77,11 @@ export const Navbar = () => {
                 </a>
               ))}
               <div className="flex flex-col gap-2 mt-4 px-4">
-                <Button variant="ghost" size="sm" className="w-full font-medium">
-                  Sign In
+                <Button variant="ghost" size="sm" className="w-full font-medium" asChild>
+                  <Link to="/app">Sign In</Link>
                 </Button>
-                <Button size="sm" className="w-full font-medium shadow-lg">
-                  Get Started
+                <Button size="sm" className="w-full font-medium shadow-lg" asChild>
+                  <Link to="/app">Get Started</Link>
                 </Button>
               </div>
             </div>
