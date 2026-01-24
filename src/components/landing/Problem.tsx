@@ -5,6 +5,8 @@ const problemData = [
   { approach: "Vector Databases", day1: "Works", day100: "Contradictions", day365: "Knowledge garbage" },
   { approach: "RAG Systems", day1: "Works", day100: "No temporal awareness", day365: "Outdated info" },
   { approach: "Key-Value Stores", day1: "Works", day100: "No relationships", day365: "Fragmented" },
+  { approach: "Static Skill Definitions", day1: "Works", day100: "Manual maintenance", day365: "Skills outdated" },
+  { approach: "No Skill Evolution", day1: "Works", day100: "Skills don't improve", day365: "Expertise plateaus" },
 ];
 
 const issues = [
@@ -12,15 +14,18 @@ const issues = [
   "Retrieve outdated facts as current",
   "Can't resolve contradictions",
   "Lose context across sessions",
-  "Fail to learn and improve over time",
+  "Don't acquire domain expertise",
+  "Can't evolve skills from experience",
+  "Require manual skill definition",
 ];
 
 const solutions = [
   "Forgets irrelevant information naturally (Memory Decay)",
   "Consolidates related knowledge automatically",
-  "Prioritizes important information (PageRank)",
-  "Tracks time with temporal validity",
-  "Learns continuously from every interaction",
+  "Acquires skills through experience (Trading, Healthcare, Coding)",
+  "Skills evolve and improve with every use (78% → 85%)",
+  "Composes skills to create advanced capabilities",
+  "Becomes your perfect AI coworker",
 ];
 
 export const Problem = () => {

@@ -201,21 +201,20 @@ export const Hero = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-foreground/5 border border-foreground/10 mb-8 animate-fade-up backdrop-blur-sm">
             <Sparkles className="w-4 h-4 text-foreground" />
             <span className="text-sm font-medium">
-              The Sentient Memory Platform for AI Agents
+              The Ultimate Human Cognitive Memory System
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="text-hero mb-6 animate-fade-up delay-100">
-            Give Your AI Agents{" "}
-            <span className="gradient-text">Living Memory</span>
+            AI Memory That{" "}
+            <span className="gradient-text">Thinks & Evolves</span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-body-lg max-w-2xl mx-auto mb-10 animate-fade-up delay-200">
-            MemSient is the world's first cognitive memory platform that thinks
-            like a human brain. Memory decay, consolidation, temporal awareness,
-            and self-evolution — all built-in.
+            The first AI memory system that thinks, learns, and evolves like a human brain — 
+            acquiring skills through experience and becoming your perfect coworker.
           </p>
 
           {/* CTA Buttons */}
@@ -235,7 +234,7 @@ export const Hero = () => {
             {[
               { value: "<100ms", label: "p99 Latency" },
               { value: "99.99%", label: "Uptime SLA" },
-              { value: "1B+", label: "API Requests/Month" },
+              { value: "10K+", label: "Skills Acquired" },
               { value: "500+", label: "Companies" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">

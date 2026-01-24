@@ -29,7 +29,7 @@ const plans = [
       "Email support",
       "Advanced analytics",
       "MCP integration",
-      "Temporal queries",
+      "Skill Banks access",
     ],
     cta: "Start Trial",
     variant: "default" as const,
@@ -45,7 +45,7 @@ const plans = [
       "Unlimited projects",
       "Slack support",
       "Full analytics suite",
-      "Team collaboration",
+      "All Skill Banks",
       "Priority processing",
       "Custom retention",
     ],
@@ -67,6 +67,23 @@ const plans = [
       "On-prem option",
       "Custom SLA",
       "Training & onboarding",
+    ],
+    cta: "Contact Sales",
+    variant: "outline" as const,
+    popular: false,
+  },
+  {
+    name: "Edge",
+    price: "$999",
+    period: "/month",
+    description: "On-device deployment with WASM runtime",
+    features: [
+      "WASM runtime",
+      "Offline-first",
+      "Memory travels with you",
+      "Sub-10ms latency",
+      "Full Skill Banks",
+      "Priority support",
     ],
     cta: "Contact Sales",
     variant: "outline" as const,
@@ -95,7 +112,7 @@ export const Pricing = () => {
         </div>
 
         {/* Pricing grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-5">
           {plans.map((plan) => (
             <div
               key={plan.name}
@@ -115,13 +132,13 @@ export const Pricing = () => {
                 </div>
               )}
 
-              <div className="relative z-10">
+              <div className="relative z-10 flex flex-col h-full">
                 {/* Plan header */}
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold">{plan.name}</h3>
                   <div className="mt-3 flex items-baseline gap-1">
-                    <span className="text-4xl font-bold tracking-tight">{plan.price}</span>
-                    <span className="text-muted-foreground">{plan.period}</span>
+                    <span className="text-3xl font-bold tracking-tight">{plan.price}</span>
+                    <span className="text-muted-foreground text-sm">{plan.period}</span>
                   </div>
                   <p className="mt-3 text-sm text-muted-foreground">
                     {plan.description}
@@ -129,13 +146,13 @@ export const Pricing = () => {
                 </div>
 
                 {/* Features */}
-                <ul className="space-y-3 mb-8 flex-grow">
+                <ul className="space-y-2.5 mb-8 flex-grow">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2.5 text-sm">
-                      <div className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                        <Check className="w-3 h-3 text-foreground" />
+                    <li key={feature} className="flex items-start gap-2 text-sm">
+                      <div className="w-4 h-4 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <Check className="w-2.5 h-2.5 text-foreground" />
                       </div>
-                      <span>{feature}</span>
+                      <span className="text-sm">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -144,6 +161,7 @@ export const Pricing = () => {
                 <Button 
                   variant={plan.popular ? "default" : "outline"} 
                   className={`w-full transition-all duration-300 ${plan.popular ? 'shadow-lg hover:shadow-xl' : ''}`}
+                  size="sm"
                 >
                   {plan.cta}
                 </Button>

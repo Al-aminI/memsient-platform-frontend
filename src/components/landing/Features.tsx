@@ -6,24 +6,33 @@ import {
   Zap, 
   Layers,
   RefreshCcw,
-  Target
+  Target,
+  Sparkles,
+  TrendingUp,
+  Network,
+  BookOpen
 } from "lucide-react";
 
 const features = [
   {
     icon: Brain,
-    title: "Memory Decay",
-    description: "Automatically forgets irrelevant information like a human brain, keeping your knowledge graph clean and relevant.",
+    title: "Human-Like Memory",
+    description: "Memory that forgets, consolidates, and evolves like a human brain — not just storage.",
   },
   {
-    icon: RefreshCcw,
-    title: "Consolidation",
-    description: "Merges related knowledge and resolves entity duplicates automatically, creating coherent understanding.",
+    icon: Sparkles,
+    title: "Skill Acquisition",
+    description: "Learns trading, healthcare, coding, legal, and finance skills through experience automatically.",
   },
   {
-    icon: Target,
-    title: "Importance Scoring",
-    description: "PageRank-based prioritization ensures critical information surfaces first in every query.",
+    icon: TrendingUp,
+    title: "Skill Evolution",
+    description: "Skills continuously improve based on success/failure feedback. 78% → 85% success rates.",
+  },
+  {
+    icon: Network,
+    title: "Skill Composition",
+    description: "Basic skills combine to create advanced capabilities. Skills give birth to new skills.",
   },
   {
     icon: Clock,
@@ -33,17 +42,32 @@ const features = [
   {
     icon: GitBranch,
     title: "Knowledge Graph",
-    description: "Rich entity-relationship storage with multi-hop traversal for complex reasoning across connected data.",
+    description: "Rich entity-relationship storage with multi-hop traversal for complex reasoning.",
+  },
+  {
+    icon: RefreshCcw,
+    title: "Self-Evolution",
+    description: "Memory decay removes noise, consolidation merges knowledge, importance adapts to usage.",
+  },
+  {
+    icon: Target,
+    title: "Importance Scoring",
+    description: "PageRank-based prioritization ensures critical information surfaces first.",
+  },
+  {
+    icon: BookOpen,
+    title: "Codebase Learning",
+    description: "Learns your exact coding practices and evolves with your codebase over time.",
   },
   {
     icon: Zap,
     title: "Sub-100ms Latency",
-    description: "Edge deployment with WASM runtime delivers instant memory access. Speed of thought, guaranteed.",
+    description: "Edge deployment with WASM runtime delivers instant memory access.",
   },
   {
     icon: Layers,
     title: "Multi-Tenant Isolation",
-    description: "Complete data separation at organization, project, user, and session levels with row-level security.",
+    description: "Complete data separation at organization, project, user, and session levels.",
   },
   {
     icon: Shield,
@@ -65,10 +89,11 @@ export const Features = () => {
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Core Features</span>
           </div>
           <h2 className="text-display mb-4">
-            Cognitive Memory, <span className="gradient-text">Not Storage</span>
+            Human Cognitive Memory, <span className="gradient-text">Not Storage</span>
           </h2>
           <p className="text-body-lg max-w-2xl mx-auto">
-            MemSient is not a database. It's a cognitive memory system inspired by neuroscience research.
+            MemSient is not a database. It's human cognitive memory — the same system that powers human intelligence, 
+            with skill acquisition through experience.
           </p>
         </div>
 

@@ -1,33 +1,47 @@
-import { FileText, Cpu, Search, RefreshCw } from "lucide-react";
+import { FileText, Cpu, Search, RefreshCw, Sparkles, TrendingUp } from "lucide-react";
 
 const steps = [
   {
     icon: FileText,
     step: "01",
     title: "Ingest",
-    description: "Feed documents, conversations, or any content. MemSient automatically extracts entities, relationships, and temporal information.",
+    description: "Feed documents, conversations, code, or any content. MemSient extracts entities, relationships, and temporal information.",
     details: ["Smart chunking", "Entity extraction", "Temporal tagging", "Source preservation"],
   },
   {
     icon: Cpu,
     step: "02",
     title: "Process",
-    description: "Content is transformed into a living knowledge graph with embeddings, relationships, and importance scores.",
+    description: "Content transforms into a living knowledge graph with embeddings, relationships, and importance scores.",
     details: ["Vector embeddings", "Graph construction", "Alias resolution", "Conflict detection"],
   },
   {
-    icon: Search,
+    icon: Sparkles,
     step: "03",
+    title: "Discover Skills",
+    description: "MemSient automatically discovers and extracts reusable skills from successful task completions.",
+    details: ["Skill discovery", "Pattern mining", "Execution trace analysis", "Skill validation"],
+  },
+  {
+    icon: Search,
+    step: "04",
     title: "Query",
-    description: "Ask natural language questions. Get accurate, contextual answers with confidence scores and source citations.",
-    details: ["Semantic search", "Graph traversal", "Temporal queries", "Context assembly"],
+    description: "Ask natural language questions. Get accurate, contextual answers with confidence scores and evolved skills.",
+    details: ["Semantic search", "Graph traversal", "Skill-enhanced answers", "Context assembly"],
+  },
+  {
+    icon: TrendingUp,
+    step: "05",
+    title: "Evolve & Compose",
+    description: "Skills continuously improve based on feedback. Basic skills combine to create advanced capabilities.",
+    details: ["Skill evolution", "Skill composition", "Success tracking", "Domain expertise"],
   },
   {
     icon: RefreshCw,
-    step: "04",
-    title: "Evolve",
-    description: "Memory continuously improves. Decay removes noise, consolidation merges knowledge, importance adapts to usage.",
-    details: ["Memory decay", "Auto-consolidation", "PageRank update", "Community detection"],
+    step: "06",
+    title: "Self-Improve",
+    description: "Memory and skills continuously improve. Decay removes noise, consolidation merges knowledge.",
+    details: ["Memory decay", "Auto-consolidation", "PageRank update", "Skill bank growth"],
   },
 ];
 
@@ -47,12 +61,12 @@ export const HowItWorks = () => {
             How <span className="gradient-text">MemSient</span> Works
           </h2>
           <p className="text-body-lg max-w-2xl mx-auto">
-            From raw content to living memory in four seamless steps.
+            From raw content to living memory with evolving skills in six seamless steps.
           </p>
         </div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {steps.map((step, idx) => (
             <div key={step.title} className="relative group">
               {/* Connector line */}
