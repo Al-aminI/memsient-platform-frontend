@@ -115,6 +115,10 @@ export default function Dashboard() {
     navigate(`/app/query?memoryId=${memoryId}`);
   };
 
+  const handleCreateMemory = () => {
+    navigate("/app/query");
+  };
+
   const filteredMemories = memories.filter((memory) => {
     const matchesSearch = 
       memory.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -187,7 +191,7 @@ export default function Dashboard() {
             <h1 className="text-heading">Memories</h1>
             <p className="text-body">View and manage your knowledge graph</p>
       </div>
-          <Button>
+          <Button onClick={handleCreateMemory}>
             <Plus className="mr-2 h-4 w-4" />
             Create Memory
           </Button>
@@ -268,7 +272,7 @@ export default function Dashboard() {
                   : "Get started by creating your first memory"}
               </p>
               {!searchQuery && typeFilter === "All" && importanceFilter === "All" && (
-                <Button className="mt-4">
+                <Button className="mt-4" onClick={handleCreateMemory}>
                   <Plus className="mr-2 h-4 w-4" />
                   Create Memory
                 </Button>
