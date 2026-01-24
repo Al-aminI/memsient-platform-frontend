@@ -1,12 +1,12 @@
-import { Code, Scale, FlaskConical, TrendingUp, Headphones, Users } from "lucide-react";
+import { Code, Scale, FlaskConical, TrendingUp, Briefcase, Users } from "lucide-react";
 
 const useCases = [
   {
     icon: Code,
     title: "Coding Assistants",
     companies: "Cursor, Windsurf, Cody",
-    pain: "Lost context across sessions, repeated suggestions",
-    value: "40% reduction in repeated suggestions, 3x faster context recovery",
+    pain: "Lost context, repeated suggestions, no learning",
+    value: "Learns YOUR codebase patterns, 40% fewer repeats, evolving skills",
     color: "from-zinc-600 to-zinc-400",
   },
   {
@@ -14,7 +14,7 @@ const useCases = [
     title: "Legal AI",
     companies: "Harvey, Casetext, LexisNexis",
     pain: "No precedent tracking, temporal law changes",
-    value: "60% faster research, accurate temporal legal advice",
+    value: "Case law skills, 60% faster research, precedent evolution",
     color: "from-gray-700 to-gray-500",
   },
   {
@@ -22,7 +22,7 @@ const useCases = [
     title: "Research Agents",
     companies: "Elicit, Consensus, Semantic Scholar",
     pain: "Can't synthesize hundreds of papers",
-    value: "Cross-paper synthesis, automatic claim tracking",
+    value: "Cross-paper synthesis, claim tracking, methodology memory",
     color: "from-neutral-600 to-neutral-400",
   },
   {
@@ -30,23 +30,23 @@ const useCases = [
     title: "Financial Trading",
     companies: "Bloomberg, Kensho, Two Sigma",
     pain: "Market regime changes not tracked",
-    value: "Real-time market regime memory, pattern evolution",
+    value: "RSI, volume, entry strategy skills — 82% success rate",
     color: "from-stone-600 to-stone-400",
   },
   {
-    icon: Headphones,
-    title: "Customer Support",
-    companies: "Intercom, Zendesk, Freshdesk",
-    pain: "No memory of customer history",
-    value: "Complete relationship memory, personalized support",
+    icon: Briefcase,
+    title: "Healthcare AI",
+    companies: "Clinical Decision Support",
+    pain: "No patient history synthesis, static protocols",
+    value: "Diagnosis skills evolve to 92% accuracy, treatment learning",
     color: "from-slate-600 to-slate-400",
   },
   {
     icon: Users,
-    title: "Sales AI",
-    companies: "Gong, Outreach, Salesloft",
-    pain: "Lost deal context between calls",
-    value: "Full conversation memory, deal intelligence",
+    title: "The Perfect Coworker",
+    companies: "Any AI Agent",
+    pain: "AI doesn't learn, requires manual skill definition",
+    value: "80% less manual work, 3x faster with evolved skills",
     color: "from-zinc-700 to-zinc-500",
   },
 ];
@@ -57,11 +57,15 @@ export const UseCases = () => {
       <div className="section-container">
         {/* Section header */}
         <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary border border-border/50 mb-6">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Use Cases</span>
+          </div>
           <h2 className="text-display mb-4">
-            Built for <span className="gradient-text">Every AI Agent</span>
+            Domain-Specific <span className="gradient-text">Skill Banks</span>
           </h2>
           <p className="text-body-lg max-w-2xl mx-auto">
-            From coding assistants to financial trading — MemSient powers the memory of AI across industries.
+            MemSient acquires skills through experience — Trading, Healthcare, Coding, Legal, Finance. 
+            Your AI becomes an expert in your field.
           </p>
         </div>
 
@@ -70,7 +74,7 @@ export const UseCases = () => {
           {useCases.map((useCase) => (
             <div
               key={useCase.title}
-              className="group bg-card rounded-2xl border border-border p-6 shadow-soft card-hover overflow-hidden relative"
+              className="group bg-card/80 backdrop-blur-sm rounded-2xl border border-border/50 hover:border-border p-6 shadow-soft card-hover overflow-hidden relative transition-all duration-300"
             >
               {/* Gradient accent */}
               <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${useCase.color} opacity-0 group-hover:opacity-100 transition-opacity`} />
@@ -92,7 +96,7 @@ export const UseCases = () => {
 
               {/* Value delivered */}
               <div>
-                <span className="text-xs font-medium text-primary uppercase tracking-wider">Value Delivered</span>
+                <span className="text-xs font-medium text-foreground/70 uppercase tracking-wider">Skill Bank Value</span>
                 <p className="text-sm mt-1 text-foreground font-medium">{useCase.value}</p>
               </div>
             </div>
