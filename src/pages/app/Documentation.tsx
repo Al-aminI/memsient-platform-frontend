@@ -25,9 +25,12 @@ import {
   FileText,
   GitBranch,
   Info,
-  AlertCircle
+  AlertCircle,
+  Globe
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
+const GRAPHMEM_BASE_URL = "https://graphmem-gateway.aayushpatil558321.workers.dev";
 
 const sidebarItems = [
   { id: "overview", title: "Overview", icon: BookOpen },
@@ -41,6 +44,7 @@ const sidebarItems = [
   { id: "multi-tenancy", title: "Multi-Tenancy", icon: Shield },
   { id: "mcp", title: "MCP Integration", icon: Network },
   { id: "sdk", title: "SDKs & APIs", icon: Layers },
+  { id: "rest-api-reference", title: "GraphMem REST API", icon: Globe },
   { id: "use-cases", title: "Use Cases", icon: FileText },
 ];
 
@@ -1169,25 +1173,196 @@ ms = MemSient(api_key="...", project_id="legal_assistant")`}
                 <CardDescription>Standard HTTP API for any language</CardDescription>
               </CardHeader>
               <CardContent>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Use the GraphMem REST API with base URL below. See <strong>GraphMem REST API</strong> in the sidebar for the full endpoint reference.
+                </p>
                 <CodeBlock
-                  code={`# Ingest
-curl -X POST https://api.memsient.com/v1/ingest \\
-  -H "Authorization: Bearer ms_your_api_key" \\
+                  code={`# Base URL (production)
+${GRAPHMEM_BASE_URL}
+
+# Create memory
+curl -X POST ${GRAPHMEM_BASE_URL}/api/v1/memory/create \\
   -H "Content-Type: application/json" \\
-  -d '{
-    "content": "Acme Corp reported $5.2B revenue in Q4 2024.",
-    "metadata": { "source": "earnings_report" }
-  }'
+  -d '{"memory_id": "my-memory-1", "user_id": "user-123"}'
+
+# Ingest text
+curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/text?user_id=user-123" \\
+  -H "Content-Type: application/json" \\
+  -d '{"memory_id": "my-memory-1", "content": "Acme Corp reported $5.2B revenue in Q4 2024."}'
 
 # Query
-curl -X POST https://api.memsient.com/v1/query \\
-  -H "Authorization: Bearer ms_your_api_key" \\
+curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
   -H "Content-Type: application/json" \\
-  -d '{ "query": "What is Acme latest revenue?" }'`}
+  -d '{"memory_id": "my-memory-1", "query": "What is Acme latest revenue?"}'`}
                   label="rest-api"
                   onCopy={copyCode}
                   copied={copiedCode === "rest-api"}
                 />
+              </CardContent>
+            </Card>
+          </div>
+        );
+
+      case "rest-api-reference":
+        return (
+          <div className="space-y-6">
+            <div>
+              <Badge className="mb-2">Production API</Badge>
+              <h1 className="text-3xl font-bold mb-2">GraphMem REST API Reference</h1>
+              <p className="text-lg text-muted-foreground">
+                Full HTTP API for memory, ingestion, query, and evolution. Use this base URL for frontend and server integration.
+              </p>
+            </div>
+
+            <Alert className="bg-primary/5 border-primary/20">
+              <Globe className="h-4 w-4 text-primary" />
+              <AlertTitle>Base URL</AlertTitle>
+              <AlertDescription>
+                <code className="text-sm bg-muted px-1.5 py-0.5 rounded">{GRAPHMEM_BASE_URL}</code>
+                <br />
+                <span className="text-sm mt-2 block">OpenAPI docs: <a href={`${GRAPHMEM_BASE_URL}/docs`} target="_blank" rel="noopener noreferrer" className="underline">{GRAPHMEM_BASE_URL}/docs</a></span>
+              </AlertDescription>
+            </Alert>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Endpoint Summary</CardTitle>
+                <CardDescription>All endpoints use API prefix /api/v1. Pass user_id as query param for multi-tenancy.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-2 pr-4">Method</th>
+                        <th className="text-left py-2 pr-4">Path</th>
+                        <th className="text-left py-2">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-muted-foreground">
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">GET</td><td className="py-2 pr-4 font-mono">/</td><td>Root / API info</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">GET</td><td className="py-2 pr-4 font-mono">/health</td><td>Health check</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">POST</td><td className="py-2 pr-4 font-mono">/api/v1/memory/create</td><td>Create memory</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">GET</td><td className="py-2 pr-4 font-mono">/api/v1/memory/{`{memory_id}`}</td><td>Get memory</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">DELETE</td><td className="py-2 pr-4 font-mono">/api/v1/memory/{`{memory_id}`}</td><td>Delete memory</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">POST</td><td className="py-2 pr-4 font-mono">/api/v1/memory/ingest/text</td><td>Ingest text (sync or async_mode=true)</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">POST</td><td className="py-2 pr-4 font-mono">/api/v1/memory/ingest/structured</td><td>Ingest nodes + edges</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">GET</td><td className="py-2 pr-4 font-mono">/api/v1/memory/ingest/status/{`{request_id}`}</td><td>Poll async ingest/evolve status</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">POST</td><td className="py-2 pr-4 font-mono">/api/v1/memory/query</td><td>Natural-language query</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">GET</td><td className="py-2 pr-4 font-mono">/api/v1/memory/{`{memory_id}`}/nodes</td><td>List nodes</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">GET</td><td className="py-2 pr-4 font-mono">/api/v1/memory/{`{memory_id}`}/nodes/{`{node_id}`}</td><td>Get node</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">GET</td><td className="py-2 pr-4 font-mono">/api/v1/memory/{`{memory_id}`}/edges</td><td>List edges</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">GET</td><td className="py-2 pr-4 font-mono">/api/v1/memory/{`{memory_id}`}/graph</td><td>Get full graph</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">POST</td><td className="py-2 pr-4 font-mono">/api/v1/memory/{`{memory_id}`}/traverse</td><td>Graph traversal</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">POST</td><td className="py-2 pr-4 font-mono">/api/v1/memory/evolve</td><td>Trigger evolution (sync or async)</td></tr>
+                      <tr className="border-b"><td className="py-2 pr-4 font-mono">POST</td><td className="py-2 pr-4 font-mono">/api/v1/memory/temporal</td><td>Temporal query</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Quick examples</CardTitle>
+                <CardDescription>Copy-paste curl examples (replace user_id and memory_id as needed)</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div>
+                  <h3 className="font-medium mb-2">Create memory</h3>
+                  <CodeBlock
+                    code={`curl -X POST ${GRAPHMEM_BASE_URL}/api/v1/memory/create \\
+  -H "Content-Type: application/json" \\
+  -d '{"memory_id": "my-memory-1", "user_id": "user-123"}'`}
+                    label="rest-create"
+                    onCopy={copyCode}
+                    copied={copiedCode === "rest-create"}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-medium mb-2">Ingest text (sync)</h3>
+                  <CodeBlock
+                    code={`curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/text?user_id=user-123&async_mode=false" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "memory_id": "my-memory-1",
+    "content": "Acme Corp reported $5.2B revenue in Q4 2024. CEO Jane Smith announced the acquisition of TechStart Inc."
+  }'`}
+                    label="rest-ingest"
+                    onCopy={copyCode}
+                    copied={copiedCode === "rest-ingest"}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-medium mb-2">Ingest text (async) — then poll status</h3>
+                  <CodeBlock
+                    code={`# Returns 202 with request_id
+curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/text?user_id=user-123&async_mode=true" \\
+  -H "Content-Type: application/json" \\
+  -d '{"memory_id": "my-memory-1", "content": "Apple Inc. produces iPhones and MacBooks. Founded by Steve Jobs."}'
+
+# Poll status (use request_id from 202 response)
+curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/status/<request_id>"`}
+                    label="rest-ingest-async"
+                    onCopy={copyCode}
+                    copied={copiedCode === "rest-ingest-async"}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-medium mb-2">Query memory</h3>
+                  <CodeBlock
+                    code={`curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123&query_mode=semantic" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "memory_id": "my-memory-1",
+    "query": "Who is the CEO of Acme?",
+    "top_k": 5,
+    "include_answer": true
+  }'`}
+                    label="rest-query"
+                    onCopy={copyCode}
+                    copied={copiedCode === "rest-query"}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-medium mb-2">Get memory / List nodes / Get graph</h3>
+                  <CodeBlock
+                    code={`# Get memory metadata
+curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/my-memory-1?user_id=user-123"
+
+# List nodes (optional: limit, offset)
+curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/my-memory-1/nodes?user_id=user-123&limit=10"
+
+# Get full graph
+curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/my-memory-1/graph?user_id=user-123"`}
+                    label="rest-get-list"
+                    onCopy={copyCode}
+                    copied={copiedCode === "rest-get-list"}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-medium mb-2">Trigger evolution</h3>
+                  <CodeBlock
+                    code={`curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/evolve?user_id=user-123" \\
+  -H "Content-Type: application/json" \\
+  -d '{"memory_id": "my-memory-1", "evolution_types": ["decay", "consolidation", "rehydration"]}'`}
+                    label="rest-evolve"
+                    onCopy={copyCode}
+                    copied={copiedCode === "rest-evolve"}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Notes</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 text-sm text-muted-foreground">
+                <p>• <strong>user_id</strong> is required as a query parameter on most endpoints for multi-tenancy.</p>
+                <p>• <strong>async_mode=true</strong> on ingest or evolve returns 202 with <code className="bg-muted px-1 rounded">request_id</code>; poll <code className="bg-muted px-1 rounded">GET /api/v1/memory/ingest/status/{`{request_id}`}`</code> for progress.</p>
+                <p>• Query supports <code className="bg-muted px-1 rounded">query_mode</code>: semantic, exact, graph_traversal. Set <code className="bg-muted px-1 rounded">include_answer: false</code> for retrieval-only (no LLM).</p>
+                <p>• Structured ingest uses <code className="bg-muted px-1 rounded">source_id</code> and <code className="bg-muted px-1 rounded">target_id</code> (node IDs) in edges; create nodes first or use IDs from list.</p>
               </CardContent>
             </Card>
           </div>

@@ -2,6 +2,15 @@
 
 MemSient is the ultimate human cognitive memory system for AI agents. Build AI agents that truly remember, think, and evolve.
 
+## GraphMem API (backend)
+
+The app documents the **GraphMem REST API** in the **Documentation** page under **GraphMem REST API** (sidebar). Production base URL:
+
+- **Base URL:** `https://graphmem-gateway.aayushpatil558321.workers.dev`
+- **OpenAPI docs:** `https://graphmem-gateway.aayushpatil558321.workers.dev/docs`
+
+Use this base URL when integrating the frontend or any client with the memory API (create memory, ingest, query, evolution, etc.). Full endpoint list and copy-paste examples are in the in-app Documentation.
+
 ## Features
 
 - **Living Memory**: AI memory that thinks, learns, and evolves like a human brain
