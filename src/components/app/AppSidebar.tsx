@@ -5,7 +5,8 @@ import {
   CreditCard, 
   MessageSquare, 
   Brain,
-  ChevronLeft
+  ChevronLeft,
+  ExternalLink
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useSidebar } from "@/components/ui/sidebar";
@@ -26,13 +27,14 @@ import { Button } from "@/components/ui/button";
 
 const mainItems = [
   { title: "Dashboard", url: "/app", icon: LayoutDashboard },
-  { title: "Query Interface", url: "/app/query", icon: MessageSquare },
-  { title: "Documentation", url: "/app/docs", icon: FileText },
+  { title: "Playground", url: "/app/playground", icon: MessageSquare },
+  // Open documentation in a new browser tab, full-page (no app chrome)
+  { title: "Documentation", url: "/docs", icon: FileText, external: true as const },
 ];
 
 const settingsItems = [
   { title: "API Keys", url: "/app/api-keys", icon: Key },
-  { title: "Billing", url: "/app/billing", icon: CreditCard },
+  { title: "Billing & Usage", url: "/app/billing", icon: CreditCard },
 ];
 
 export function AppSidebar() {
@@ -64,10 +66,15 @@ export function AppSidebar() {
                       to={item.url} 
                       end={item.url === "/app"}
                       className="flex items-center gap-2"
+                      target={item.external ? "_blank" : undefined}
+                      rel={item.external ? "noreferrer" : undefined}
                       activeClassName="bg-sidebar-accent text-sidebar-accent-foreground"
                     >
                       <item.icon className="w-4 h-4" />
                       <span>{item.title}</span>
+                      {item.external && (
+                        <ExternalLink className="w-3.5 h-3.5 ml-auto opacity-60" aria-hidden />
+                      )}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

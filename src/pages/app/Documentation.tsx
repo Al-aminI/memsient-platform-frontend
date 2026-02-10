@@ -84,58 +84,52 @@ export default function Documentation() {
     switch (activeSection) {
       case "overview":
         return (
-          <div className="space-y-6">
-            <div>
-              <Badge className="mb-2">Introduction</Badge>
-              <h1 className="text-3xl font-bold mb-2">MemSient Documentation</h1>
-              <p className="text-lg text-muted-foreground">
-                The Ultimate Human Cognitive Memory System for AI Agents
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
+            <div className="text-center space-y-2">
+              <Badge className="mb-1 inline-flex">Introduction</Badge>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                MemSient Documentation
+              </h1>
+              <p className="text-base text-muted-foreground max-w-2xl mx-auto">
+                Cognitive memory for AI: remember, forget, and evolve knowledge.
               </p>
             </div>
 
             <Alert className="bg-primary/5 border-primary/20">
-              <Brain className="h-4 w-4 text-primary" />
-              <AlertTitle>What is MemSient?</AlertTitle>
-              <AlertDescription>
-                MemSient is the world's first <strong>Ultimate Human Cognitive Memory System</strong> — 
-                an AI agent that doesn't just store information, but <strong>thinks, learns, and evolves like a human brain</strong>, 
-                acquiring skills through experience and becoming your perfect coworker.
+              <Brain className="h-5 w-5 text-primary" />
+              <AlertTitle className="text-base font-semibold">What is MemSient?</AlertTitle>
+              <AlertDescription className="text-sm">
+                A memory engine that <strong>thinks</strong> (graph), <strong>learns</strong> (skills), and <strong>evolves</strong> (decay, consolidation).
               </AlertDescription>
             </Alert>
 
             <div className="grid gap-4 md:grid-cols-2">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 text-base">
                     <Brain className="h-5 w-5" />
                     Human-Like Memory
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li>✅ <strong>Forgets</strong> irrelevant information naturally</li>
-                    <li>✅ <strong>Consolidates</strong> related knowledge automatically</li>
-                    <li>✅ <strong>Prioritizes</strong> important information</li>
-                    <li>✅ <strong>Tracks time</strong> with temporal validity</li>
-                    <li>✅ <strong>Resolves conflicts</strong> between old and new info</li>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li>✅ Forgets, consolidates, prioritizes</li>
+                    <li>✅ Temporal validity & conflict resolution</li>
                   </ul>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 text-base">
                     <Sparkles className="h-5 w-5" />
                     Skill Acquisition
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li>✅ <strong>Learns Trading Skills</strong> from successful trades</li>
-                    <li>✅ <strong>Learns Healthcare Skills</strong> from medical cases</li>
-                    <li>✅ <strong>Learns Coding Skills</strong> from your codebase</li>
-                    <li>✅ <strong>Evolves Skills</strong> continuously (78% → 85% success)</li>
-                    <li>✅ <strong>Composes Skills</strong> to create advanced capabilities</li>
+                  <ul className="space-y-1 text-sm text-muted-foreground">
+                    <li>✅ Domain skills (trading, healthcare, coding)</li>
+                    <li>✅ Evolves & composes over time</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -146,43 +140,13 @@ export default function Documentation() {
                 <CardTitle>Key Features</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-4 md:grid-cols-3">
-                  <div>
-                    <h3 className="font-semibold mb-2">🧠 Cognitive Memory</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Memory that forgets, consolidates, and evolves like the human brain
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">⏰ Temporal Validity</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Track when facts were true: "CEO in 2015" vs "CEO now"
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">🔗 Knowledge Graph</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Automatic entity extraction and relationship mapping
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">📈 Self-Evolution</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Memory that consolidates, decays, and improves automatically
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">🎯 Skill Banks</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Domain-specific skill repositories (Trading, Healthcare, Coding, Legal, Finance)
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">🔒 Multi-Tenant</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Complete data isolation for enterprise deployments
-                    </p>
-                  </div>
+                <div className="grid gap-3 md:grid-cols-3 text-sm">
+                  <div><span className="font-medium">🧠 Cognitive Memory</span> — forgets, consolidates, evolves</div>
+                  <div><span className="font-medium">⏰ Temporal</span> — when facts were true</div>
+                  <div><span className="font-medium">🔗 Knowledge Graph</span> — entities & relationships</div>
+                  <div><span className="font-medium">📈 Self-Evolution</span> — decay & consolidation</div>
+                  <div><span className="font-medium">🎯 Skill Banks</span> — trading, healthcare, coding, legal</div>
+                  <div><span className="font-medium">🔒 Multi-Tenant</span> — data isolation</div>
                 </div>
               </CardContent>
             </Card>
@@ -191,25 +155,11 @@ export default function Documentation() {
               <CardHeader>
                 <CardTitle>Performance</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Query Latency (p50)</span>
-                    <Badge variant="outline">&lt; 50ms</Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Query Latency (p99)</span>
-                    <Badge variant="outline">&lt; 100ms</Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Ingestion Throughput</span>
-                    <Badge variant="outline">10,000+ docs/sec</Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Uptime</span>
-                    <Badge variant="outline">99.99%</Badge>
-                  </div>
-                </div>
+              <CardContent className="flex flex-wrap gap-2">
+                <Badge variant="outline">p50 &lt; 50ms</Badge>
+                <Badge variant="outline">p99 &lt; 100ms</Badge>
+                <Badge variant="outline">10k+ docs/sec</Badge>
+                <Badge variant="outline">99.99% uptime</Badge>
               </CardContent>
             </Card>
           </div>
@@ -217,76 +167,40 @@ export default function Documentation() {
 
       case "getting-started":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
               <Badge className="mb-2">Quick Start</Badge>
-              <h1 className="text-3xl font-bold mb-2">Getting Started</h1>
-              <p className="text-lg text-muted-foreground">
-                Get MemSient running in 5 minutes
-              </p>
+              <h1 className="text-3xl font-bold mb-1">Getting Started</h1>
+              <p className="text-muted-foreground text-sm">Run in 5 minutes.</p>
             </div>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Step 1: Installation</CardTitle>
-                <CardDescription>Choose your preferred language</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Tabs defaultValue="python">
-                  <TabsList>
-                    <TabsTrigger value="python">Python</TabsTrigger>
-                    <TabsTrigger value="typescript">TypeScript</TabsTrigger>
-                    <TabsTrigger value="curl">REST API</TabsTrigger>
-                    <TabsTrigger value="mcp">MCP</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="python" className="mt-4">
+            <Tabs defaultValue="python">
+              <TabsList>
+                <TabsTrigger value="python">Python</TabsTrigger>
+                <TabsTrigger value="curl">REST API</TabsTrigger>
+                <TabsTrigger value="mcp">MCP</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="python" className="mt-4 space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Step 1: Installation</CardTitle>
+                  </CardHeader>
+                  <CardContent>
                     <CodeBlock
                       code="pip install memsient"
                       label="pip-install"
                       onCopy={copyCode}
                       copied={copiedCode === "pip-install"}
                     />
-                  </TabsContent>
-                  <TabsContent value="typescript" className="mt-4">
-                    <CodeBlock
-                      code="npm install @memsient/sdk"
-                      label="npm-install"
-                      onCopy={copyCode}
-                      copied={copiedCode === "npm-install"}
-                    />
-                  </TabsContent>
-                  <TabsContent value="curl" className="mt-4">
-                    <p className="text-sm text-muted-foreground">
-                      No installation required. Use the REST API directly with cURL or any HTTP client.
-                    </p>
-                  </TabsContent>
-                  <TabsContent value="mcp" className="mt-4">
-                    <CodeBlock
-                      code={`npx -y @memsient/mcp-server`}
-                      label="mcp-install"
-                      onCopy={copyCode}
-                      copied={copiedCode === "mcp-install"}
-                    />
-                    <p className="text-sm text-muted-foreground mt-2">
-                      MCP server is automatically installed when configured. No manual installation needed.
-                    </p>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Step 2: Initialize</CardTitle>
-                <CardDescription>Create your first MemSient instance</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Tabs defaultValue="python">
-                  <TabsList>
-                    <TabsTrigger value="python">Python</TabsTrigger>
-                    <TabsTrigger value="typescript">TypeScript</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="python" className="mt-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Step 2: Initialize</CardTitle>
+                  </CardHeader>
+                  <CardContent>
                     <CodeBlock
                       code={`from memsient import MemSient
 
@@ -300,38 +214,14 @@ ms = MemSient(
                       onCopy={copyCode}
                       copied={copiedCode === "init-python"}
                     />
-                  </TabsContent>
-                  <TabsContent value="typescript" className="mt-4">
-                    <CodeBlock
-                      code={`import { MemSient } from '@memsient/sdk';
+                  </CardContent>
+                </Card>
 
-// Initialize client
-const ms = new MemSient({
-  apiKey: 'ms_your_api_key',
-  projectId: 'my_project',
-  userId: 'user_123'  // Optional: user-level isolation
-});`}
-                      label="init-typescript"
-                      onCopy={copyCode}
-                      copied={copiedCode === "init-typescript"}
-                    />
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Step 3: Your First Memory</CardTitle>
-                <CardDescription>Ingest and query in 3 lines of code</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Tabs defaultValue="python">
-                  <TabsList>
-                    <TabsTrigger value="python">Python</TabsTrigger>
-                    <TabsTrigger value="typescript">TypeScript</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="python" className="mt-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Step 3: Ingest & Query</CardTitle>
+                  </CardHeader>
+                  <CardContent>
                     <CodeBlock
                       code={`# Ingest
 ms.ingest("""
@@ -347,37 +237,148 @@ print(response.confidence)  # 0.95`}
                       onCopy={copyCode}
                       copied={copiedCode === "first-memory-python"}
                     />
-                  </TabsContent>
-                  <TabsContent value="typescript" className="mt-4">
-                    <CodeBlock
-                      code={`// Ingest
-await ms.ingest(\`
-    Acme Corp reported $5.2B revenue in Q4 2024.
-    CEO Jane Smith announced the acquisition of TechStart Inc.
-\`);
+                  </CardContent>
+                </Card>
+              </TabsContent>
 
-// Query
-const response = await ms.query("What is Acme's latest revenue?");
-console.log(response.answer);  // "$5.2B in Q4 2024"
-console.log(response.confidence);  // 0.95`}
-                      label="first-memory-typescript"
+              <TabsContent value="curl" className="mt-4 space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Step 1: REST Setup</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Use the GraphMem REST API with any HTTP client.
+                    </p>
+                    <CodeBlock
+                      code={`BASE="${GRAPHMEM_BASE_URL}"
+# All requests: -H "X-API-Key: ms_your_api_key"`}
+                      label="rest-base"
                       onCopy={copyCode}
-                      copied={copiedCode === "first-memory-typescript"}
+                      copied={copiedCode === "rest-base"}
                     />
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Step 2: Initialize</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      No SDK needed. Just call the HTTP endpoints with your API key.
+                    </p>
+                    <CodeBlock
+                      code={`# Example: health check
+curl -X GET "${GRAPHMEM_BASE_URL}/health" \\
+  -H "X-API-Key: ms_your_api_key"`}
+                      label="init-curl"
+                      onCopy={copyCode}
+                      copied={copiedCode === "init-curl"}
+                    />
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Step 3: Ingest & Query</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CodeBlock
+                      code={`# Create memory (once)
+curl -X POST ${GRAPHMEM_BASE_URL}/api/v1/memory/create \\
+  -H "Content-Type: application/json" -H "X-API-Key: ms_your_api_key" \\
+  -d '{"memory_id": "my-memory-1", "user_id": "user-123"}'
+
+# Ingest
+curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/text?user_id=user-123" \\
+  -H "Content-Type: application/json" -H "X-API-Key: ms_your_api_key" \\
+  -d '{"memory_id": "my-memory-1", "content": "Acme Corp reported $5.2B in Q4 2024. CEO Jane Smith announced acquiring TechStart Inc."}'
+
+# Query
+curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
+  -H "Content-Type: application/json" -H "X-API-Key: ms_your_api_key" \\
+  -d '{"memory_id": "my-memory-1", "query": "What is Acme latest revenue?", "include_answer": true}'`}
+                      label="first-memory-curl"
+                      onCopy={copyCode}
+                      copied={copiedCode === "first-memory-curl"}
+                    />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="mcp" className="mt-4 space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Step 1: Install MCP Server</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CodeBlock
+                      code={`npx -y @memsient/mcp-server`}
+                      label="mcp-install"
+                      onCopy={copyCode}
+                      copied={copiedCode === "mcp-install"}
+                    />
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Step 2: Configure MCP</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      Add to Cursor / Claude config (<code className="bg-muted px-1 rounded">.cursor/mcp.json</code> or{" "}
+                      <code className="bg-muted px-1 rounded">claude_desktop_config.json</code>):
+                    </p>
+                    <CodeBlock
+                      code={`{
+  "mcpServers": {
+    "memsient": {
+      "command": "npx",
+      "args": ["-y", "@memsient/mcp-server"],
+      "env": {
+        "MEMSIENT_API_KEY": "ms_your_api_key",
+        "MEMSIENT_PROJECT_ID": "my_project"
+      }
+    }
+  }
+}`}
+                      label="init-mcp"
+                      onCopy={copyCode}
+                      copied={copiedCode === "init-mcp"}
+                    />
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Step 3: Ingest & Query</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-2">
+                      From your AI client (Claude, Cursor), call the MCP tools:
+                    </p>
+                    <CodeBlock
+                      code={`# Ingest
+memsient_ingest(memory_id="my-memory-1", content="Acme Corp reported $5.2B in Q4 2024...")
+
+# Query
+memsient_query(memory_id="my-memory-1", query="What is Acme's latest revenue?")`}
+                      label="first-memory-mcp"
+                      onCopy={copyCode}
+                      copied={copiedCode === "first-memory-mcp"}
+                    />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
 
             <Alert>
               <Info className="h-4 w-4" />
-              <AlertTitle>Next Steps</AlertTitle>
+              <AlertTitle>Next</AlertTitle>
               <AlertDescription>
-                <ul className="list-disc list-inside space-y-1 mt-2">
-                  <li>Learn about <strong>Memory Ingestion</strong> to understand automatic extraction</li>
-                  <li>Explore <strong>Querying Memory</strong> for advanced query types</li>
-                  <li>Discover <strong>Skill Acquisition</strong> to enable learning capabilities</li>
-                </ul>
+                Memory Ingestion → Querying → Skill Acquisition
               </AlertDescription>
             </Alert>
           </div>
@@ -385,65 +386,36 @@ console.log(response.confidence);  // 0.95`}
 
       case "authentication":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Authentication</h1>
-              <p className="text-lg text-muted-foreground">
-                Secure your API access with API keys
-              </p>
+              <h1 className="text-3xl font-bold mb-1">Authentication</h1>
+              <p className="text-sm text-muted-foreground">Authenticate using API keys.</p>
             </div>
 
             <Card>
               <CardHeader>
                 <CardTitle>API Keys</CardTitle>
-                <CardDescription>Generate and manage your API keys</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  API keys are used to authenticate requests to the MemSient API. 
-                  You can create multiple keys for different projects or environments.
-                </p>
-                
-                <div className="space-y-3">
-                  <div>
-                    <h3 className="font-medium mb-2">Creating an API Key</h3>
-                    <p className="text-sm text-muted-foreground mb-2">
-                      Navigate to <strong>API Keys</strong> in the sidebar to create a new key. 
-                      Make sure to copy it immediately as it won't be shown again.
-                    </p>
-                  </div>
-
-                  <div>
-                    <h3 className="font-medium mb-2">Using API Keys</h3>
-                    <CodeBlock
-                      code={`# Python
+              <CardContent className="space-y-3">
+                <p className="text-sm text-muted-foreground">Create keys in Dashboard → API Keys. Copy once—not shown again.</p>
+                <div>
+                  <h3 className="font-medium text-sm mb-1">Usage</h3>
+                  <CodeBlock
+                    code={`# Python
 ms = MemSient(api_key="ms_your_api_key")
 
-# TypeScript
-const ms = new MemSient({ apiKey: 'ms_your_api_key' });
-
-# REST API
-curl -H "Authorization: Bearer ms_your_api_key" ...`}
-                      label="api-key-usage"
-                      onCopy={copyCode}
-                      copied={copiedCode === "api-key-usage"}
-                    />
-                  </div>
-
-                  <Alert>
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertTitle>Security Best Practices</AlertTitle>
-                    <AlertDescription>
-                      <ul className="list-disc list-inside space-y-1 mt-2">
-                        <li>Never commit API keys to version control</li>
-                        <li>Use environment variables to store keys</li>
-                        <li>Rotate keys periodically</li>
-                        <li>Revoke keys that may be compromised</li>
-                        <li>Use separate keys for development and production</li>
-                      </ul>
-                    </AlertDescription>
-                  </Alert>
+# REST
+curl -H "X-API-Key: ms_your_api_key" ...`}
+                    label="api-key-usage"
+                    onCopy={copyCode}
+                    copied={copiedCode === "api-key-usage"}
+                  />
                 </div>
+                <Alert>
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>Security</AlertTitle>
+                  <AlertDescription className="text-sm">Env vars, no commits, rotate & revoke when needed.</AlertDescription>
+                </Alert>
               </CardContent>
             </Card>
           </div>
@@ -451,73 +423,35 @@ curl -H "Authorization: Bearer ms_your_api_key" ...`}
 
       case "memory-ingestion":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Memory Ingestion</h1>
-              <p className="text-lg text-muted-foreground">
-                Transform raw content into structured, queryable knowledge
-              </p>
+              <h1 className="text-3xl font-bold mb-1">Memory Ingestion</h1>
+              <p className="text-sm text-muted-foreground">Text → entities, relationships, temporal tags.</p>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>How It Works</CardTitle>
-                <CardDescription>Ingestion flow and capabilities</CardDescription>
+                <CardTitle>Flow</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <h3 className="font-medium mb-2">Ingestion Flow</h3>
-                  <div className="bg-muted p-4 rounded-lg text-sm font-mono">
-                    Document/Text → Chunking → Entity Extraction → Relationship Mapping → 
-                    Entity Resolution → Embedding → Storage → Evolution
-                  </div>
+              <CardContent>
+                <div className="bg-muted p-3 rounded-lg text-sm font-mono">
+                  Ingest → Process → Store → Evolve
                 </div>
-                <div>
-                  <h3 className="font-medium mb-2">Capabilities</h3>
-                  <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                    <li><strong>Smart Chunking</strong>: Respects paragraphs, sentences, code blocks</li>
-                    <li><strong>Exhaustive Extraction</strong>: Every entity, relationship, number, date</li>
-                    <li><strong>Temporal Awareness</strong>: Extracts "when" for every fact</li>
-                    <li><strong>Source Preservation</strong>: Original text preserved for accuracy</li>
-                    <li><strong>Importance Tagging</strong>: Auto-detection of critical vs routine info</li>
-                  </ul>
-                </div>
+                <p className="text-xs text-muted-foreground mt-2">Automatic extraction and knowledge graph updates.</p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Example: Automatic Extraction</CardTitle>
-                <CardDescription>See what gets extracted automatically</CardDescription>
+                <CardTitle>Example</CardTitle>
               </CardHeader>
               <CardContent>
                 <CodeBlock
-                  code={`from memsient import MemSient
-
-ms = MemSient(api_key="ms_...")
-
-# Ingest with automatic extraction
-ms.ingest("""
-    Acme Corp reported $5.2B revenue in Q4 2024, up 23% YoY.
-    CEO Jane Smith announced the acquisition of TechStart Inc for $800M.
-    The deal is expected to close in Q1 2025.
+                  code={`ms.ingest("""
+Acme Corp reported $5.2B in Q4 2024. CEO Jane Smith announced acquiring TechStart Inc for $800M.
 """)
-
-# What gets extracted:
-# ENTITIES:
-#   - Acme Corp (Company)
-#   - Jane Smith (Person, CEO)
-#   - TechStart Inc (Company)
-#   - $5.2B (Amount)
-#   - $800M (Amount)
-#   - Q4 2024 (Date)
-#   - Q1 2025 (Date)
-#
-# RELATIONSHIPS:
-#   - Jane Smith --[is CEO of]--> Acme Corp [valid: current]
-#   - Acme Corp --[reported revenue]--> $5.2B [valid: Q4 2024]
-#   - Acme Corp --[is acquiring]--> TechStart Inc [valid: Q4 2024 - Q1 2025]
-#   - Acquisition --[valued at]--> $800M`}
+# → Entities: Acme Corp, Jane Smith, TechStart Inc, amounts, dates
+# → Relationships: CEO of, reported revenue, acquiring`}
                   label="ingestion-example"
                   onCopy={copyCode}
                   copied={copiedCode === "ingestion-example"}
@@ -527,43 +461,12 @@ ms.ingest("""
 
             <Card>
               <CardHeader>
-                <CardTitle>Advanced Features</CardTitle>
+                <CardTitle>More</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <h3 className="font-medium mb-2">Batch Ingestion</h3>
-                  <CodeBlock
-                    code={`docs = [{"id": "doc1", "content": "..."}, ...]
-result = ms.ingest_batch(docs, max_workers=20)`}
-                    label="batch-ingestion"
-                    onCopy={copyCode}
-                    copied={copiedCode === "batch-ingestion"}
-                  />
-                </div>
-                <div>
-                  <h3 className="font-medium mb-2">Importance Levels</h3>
-                  <CodeBlock
-                    code={`from memsient import MemoryImportance
-
-ms.ingest(
-    "Customer allergy: peanuts - CRITICAL",
-    importance=MemoryImportance.CRITICAL  # Never decays
-)`}
-                    label="importance-levels"
-                    onCopy={copyCode}
-                    copied={copiedCode === "importance-levels"}
-                  />
-                </div>
-                <div>
-                  <h3 className="font-medium mb-2">Streaming Ingestion</h3>
-                  <CodeBlock
-                    code={`async for chunk in document_stream:
-    await ms.ingest_async(chunk)`}
-                    label="streaming-ingestion"
-                    onCopy={copyCode}
-                    copied={copiedCode === "streaming-ingestion"}
-                  />
-                </div>
+              <CardContent className="space-y-3">
+                <div><span className="font-medium text-sm">Batch:</span> <code className="text-xs bg-muted px-1 rounded">ms.ingest_batch(docs)</code></div>
+                <div><span className="font-medium text-sm">Importance:</span> <code className="text-xs bg-muted px-1 rounded">importance=MemoryImportance.CRITICAL</code></div>
+                <div><span className="font-medium text-sm">Streaming:</span> <code className="text-xs bg-muted px-1 rounded">ms.ingest_async(chunk)</code></div>
               </CardContent>
             </Card>
           </div>
@@ -571,41 +474,22 @@ ms.ingest(
 
       case "querying":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Querying Memory</h1>
-              <p className="text-lg text-muted-foreground">
-                Retrieve relevant knowledge using semantic search, graph traversal, and temporal queries
-              </p>
+              <h1 className="text-3xl font-bold mb-1">Querying Memory</h1>
+              <p className="text-sm text-muted-foreground">Semantic, graph, temporal.</p>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>Query Types</CardTitle>
-                <CardDescription>Different ways to query your memory</CardDescription>
+                <CardTitle>Types</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Factual</h3>
-                    <p className="text-sm text-muted-foreground mb-2">"What is Acme's revenue?"</p>
-                    <p className="text-xs text-muted-foreground">Semantic + Entity lookup</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Relational</h3>
-                    <p className="text-sm text-muted-foreground mb-2">"Who reports to Jane?"</p>
-                    <p className="text-xs text-muted-foreground">Graph traversal</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Temporal</h3>
-                    <p className="text-sm text-muted-foreground mb-2">"Who was CEO in 2020?"</p>
-                    <p className="text-xs text-muted-foreground">Temporal filtering</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Explanatory</h3>
-                    <p className="text-sm text-muted-foreground mb-2">"Why did revenue increase?"</p>
-                    <p className="text-xs text-muted-foreground">Multi-hop reasoning</p>
-                  </div>
+                <div className="grid gap-2 md:grid-cols-2 text-sm">
+                  <div className="p-3 border rounded-lg"><strong>Factual</strong> — "What is Acme's revenue?"</div>
+                  <div className="p-3 border rounded-lg"><strong>Relational</strong> — "Who reports to Jane?"</div>
+                  <div className="p-3 border rounded-lg"><strong>Temporal</strong> — "Who was CEO in 2020?"</div>
+                  <div className="p-3 border rounded-lg"><strong>Explanatory</strong> — "Why did revenue increase?"</div>
                 </div>
               </CardContent>
             </Card>
@@ -613,23 +497,14 @@ ms.ingest(
             <Card>
               <CardHeader>
                 <CardTitle>Examples</CardTitle>
-                <CardDescription>Query examples with different types</CardDescription>
               </CardHeader>
               <CardContent>
                 <CodeBlock
-                  code={`# Simple query
-response = ms.query("What is Acme Corp's latest revenue?")
-print(response.answer)  # "$5.2B in Q4 2024, up 23% year-over-year"
-print(response.confidence)  # 0.95
-print(response.sources)  # [MemoryNode("Q4 2024 Earnings Report")]
+                  code={`response = ms.query("What is Acme's latest revenue?")
+print(response.answer, response.confidence, response.sources)
 
-# Temporal query
-response = ms.query("Who was CEO of Acme in 2020?")
-print(response.answer)  # "John Doe was CEO from 2018 to 2022"
-
-# Graph query
-response = ms.query("What companies has Jane Smith worked at?")
-print(response.answer)  # "Jane Smith worked at TechGiant (2015-2020) before becoming CEO of Acme Corp (2022-present)"`}
+response = ms.query("Who was CEO in 2020?", temporal=TemporalQuery(as_of=...))
+response = ms.query("What companies has Jane worked at?")  # graph`}
                   label="query-examples"
                   onCopy={copyCode}
                   copied={copiedCode === "query-examples"}
@@ -639,24 +514,11 @@ print(response.answer)  # "Jane Smith worked at TechGiant (2015-2020) before bec
 
             <Card>
               <CardHeader>
-                <CardTitle>Response Format</CardTitle>
+                <CardTitle>Response</CardTitle>
               </CardHeader>
               <CardContent>
                 <CodeBlock
-                  code={`{
-  "answer": "Jane Smith has been CEO since 2022",
-  "confidence": 0.94,
-  "sources": [
-    {
-      "entity_id": "ent_abc123",
-      "name": "Jane Smith",
-      "type": "Person",
-      "relevance": 0.98
-    }
-  ],
-  "context_tokens": 1247,
-  "latency_ms": 42
-}`}
+                  code={`{ "answer": "...", "confidence": 0.94, "sources": [...], "context_tokens": 1247 }`}
                   label="response-format"
                   onCopy={copyCode}
                   copied={copiedCode === "response-format"}
@@ -668,41 +530,22 @@ print(response.answer)  # "Jane Smith worked at TechGiant (2015-2020) before bec
 
       case "evolution":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Memory Evolution</h1>
-              <p className="text-lg text-muted-foreground">
-                Automatically improve memory quality over time
-              </p>
+              <h1 className="text-3xl font-bold mb-1">Memory Evolution</h1>
+              <p className="text-sm text-muted-foreground">Decay, consolidation, conflict resolution.</p>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>Evolution Processes</CardTitle>
-                <CardDescription>How memory evolves automatically</CardDescription>
+                <CardTitle>Processes</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Decay</h3>
-                    <p className="text-sm text-muted-foreground mb-2">Reduces strength of unused memories</p>
-                    <p className="text-xs text-muted-foreground">Runs: Continuous</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Consolidation</h3>
-                    <p className="text-sm text-muted-foreground mb-2">Merges duplicate entities</p>
-                    <p className="text-xs text-muted-foreground">Runs: On ingestion + scheduled</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Importance Scoring</h3>
-                    <p className="text-sm text-muted-foreground mb-2">Recalculates PageRank centrality</p>
-                    <p className="text-xs text-muted-foreground">Runs: After graph changes</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Conflict Resolution</h3>
-                    <p className="text-sm text-muted-foreground mb-2">Supersedes old info with new</p>
-                    <p className="text-xs text-muted-foreground">Runs: On contradiction detection</p>
-                  </div>
+                <div className="grid gap-2 md:grid-cols-2 text-sm">
+                  <div className="p-3 border rounded-lg"><strong>Decay</strong> — unused memories weaken</div>
+                  <div className="p-3 border rounded-lg"><strong>Consolidation</strong> — merge duplicates</div>
+                  <div className="p-3 border rounded-lg"><strong>Importance</strong> — PageRank-style scoring</div>
+                  <div className="p-3 border rounded-lg"><strong>Conflict</strong> — new info supersedes old</div>
                 </div>
               </CardContent>
             </Card>
@@ -710,21 +553,11 @@ print(response.answer)  # "Jane Smith worked at TechGiant (2015-2020) before bec
             <Card>
               <CardHeader>
                 <CardTitle>Example</CardTitle>
-                <CardDescription>Manual and automatic evolution</CardDescription>
               </CardHeader>
               <CardContent>
                 <CodeBlock
-                  code={`# Manual evolution
-events = ms.evolve()
-
-for event in events:
-    print(f"{event.type}: {event.description}")
-    # CONSOLIDATION: Merged "Acme" and "Acme Corp" into single entity
-    # DECAY: Archived 15 low-importance entities from 2022
-    # CONFLICT: Superseded "CEO: John Doe" with "CEO: Jane Smith"
-
-# Automatic evolution (enabled by default)
-ms = MemSient(api_key="...", auto_evolve=True)`}
+                  code={`events = ms.evolve()  # consolidation, decay, conflict resolution
+ms = MemSient(api_key="...", auto_evolve=True)  # default: on`}
                   label="evolution-example"
                   onCopy={copyCode}
                   copied={copiedCode === "evolution-example"}
@@ -734,19 +567,11 @@ ms = MemSient(api_key="...", auto_evolve=True)`}
 
             <Card>
               <CardHeader>
-                <CardTitle>Importance Formula</CardTitle>
-                <CardDescription>How importance is calculated</CardDescription>
+                <CardTitle>Importance</CardTitle>
               </CardHeader>
               <CardContent>
                 <CodeBlock
-                  code={`Importance(e) = w1·Recency(e) + w2·Frequency(e) + 
-       w3·PageRank(e) + w4·UserImportance(e)
-
-Where:
-- Recency = exp(-0.693 × age_days / half_life)
-- Frequency = min(1.0, log(1 + access_count) / log(1 + 100))
-- PageRank = Standard damping=0.85 iteration
-- UserImportance = 0.0 to 1.0 (CRITICAL=1.0, EPHEMERAL=0.0)`}
+                  code={`Recency + Frequency + PageRank + UserImportance (CRITICAL=1, EPHEMERAL=0)`}
                   label="importance-formula"
                   onCopy={copyCode}
                   copied={copiedCode === "importance-formula"}
@@ -758,33 +583,18 @@ Where:
 
       case "temporal":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Temporal Validity</h1>
-              <p className="text-lg text-muted-foreground">
-                Track when facts were true, not just what facts exist
-              </p>
+              <h1 className="text-3xl font-bold mb-1">Temporal Validity</h1>
+              <p className="text-sm text-muted-foreground">When facts were true.</p>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>What is Temporal Validity?</CardTitle>
-                <CardDescription>Understanding time-aware memory</CardDescription>
+                <CardTitle>Attributes</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  Every fact in MemSient has temporal attributes that track when it was true. 
-                  This allows you to query the past, present, and understand how information evolved over time.
-                </p>
-                <div>
-                  <h3 className="font-medium mb-2">Temporal Attributes</h3>
-                  <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                    <li><strong>valid_from</strong>: When the fact became true</li>
-                    <li><strong>valid_until</strong>: When the fact stopped being true (null = still valid)</li>
-                    <li><strong>created_at</strong>: When we learned the fact</li>
-                    <li><strong>updated_at</strong>: Last modification time</li>
-                  </ul>
-                </div>
+              <CardContent className="text-sm text-muted-foreground">
+                <code>valid_from</code>, <code>valid_until</code> (null = still valid), <code>created_at</code>, <code>updated_at</code>
               </CardContent>
             </Card>
 
@@ -793,33 +603,9 @@ Where:
                 <CardTitle>Query Modes</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-2">Current (Default)</h3>
-                    <CodeBlock
-                      code={`response = ms.query("Who is the CEO of Acme?")
-# → "Jane Smith (since 2022)"`}
-                      label="temporal-current"
-                      onCopy={copyCode}
-                      copied={copiedCode === "temporal-current"}
-                    />
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-2">Point-in-Time</h3>
-                    <CodeBlock
-                      code={`from memsient import TemporalQuery
-from datetime import datetime
-
-response = ms.query(
-    "Who was CEO of Acme?",
-    temporal=TemporalQuery(as_of=datetime(2020, 1, 1))
-)
-# → "John Doe was CEO from 2018 to 2022"`}
-                      label="temporal-point"
-                      onCopy={copyCode}
-                      copied={copiedCode === "temporal-point"}
-                    />
-                  </div>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <div><span className="font-medium text-sm">Current:</span> <code className="text-xs bg-muted px-1 rounded">ms.query("Who is CEO?")</code></div>
+                  <div><span className="font-medium text-sm">Point-in-time:</span> <code className="text-xs bg-muted px-1 rounded">temporal=TemporalQuery(as_of=date)</code></div>
                 </div>
               </CardContent>
             </Card>
@@ -828,90 +614,36 @@ response = ms.query(
 
       case "skills":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Skill Acquisition</h1>
-              <p className="text-lg text-muted-foreground">
-                Transform MemSient into a sentient, self-evolving coworker
-              </p>
+              <h1 className="text-3xl font-bold mb-1">Skill Acquisition</h1>
+              <p className="text-sm text-muted-foreground">Reusable capabilities from successful tasks; domain skill banks.</p>
             </div>
-
-            <Alert className="bg-primary/5 border-primary/20">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <AlertTitle>What Are Skills?</AlertTitle>
-              <AlertDescription>
-                Skills are reusable capabilities stored as graph nodes. They are automatically discovered 
-                from successful task completions and stored in domain-specific skill banks. Skills evolve 
-                continuously and can compose to create advanced capabilities.
-              </AlertDescription>
-            </Alert>
 
             <Card>
               <CardHeader>
-                <CardTitle>Domain-Specific Skill Banks</CardTitle>
+                <CardTitle>Domains</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-3 md:grid-cols-2">
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">Trading Skills</h4>
-                    <p className="text-xs text-muted-foreground">RSI analysis, volume patterns, entry strategies</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">Healthcare Skills</h4>
-                    <p className="text-xs text-muted-foreground">Diagnosis workflows, treatment protocols</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">Coding Skills</h4>
-                    <p className="text-xs text-muted-foreground">Codebase patterns, testing strategies</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">Legal Skills</h4>
-                    <p className="text-xs text-muted-foreground">Case research, contract analysis</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">Finance Skills</h4>
-                    <p className="text-xs text-muted-foreground">Valuation methods, financial modeling</p>
-                  </div>
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <Badge variant="secondary">Trading</Badge>
+                  <Badge variant="secondary">Healthcare</Badge>
+                  <Badge variant="secondary">Coding</Badge>
+                  <Badge variant="secondary">Legal</Badge>
+                  <Badge variant="secondary">Finance</Badge>
                 </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Example: Trading Skills</CardTitle>
-                <CardDescription>How skills are acquired and evolved</CardDescription>
+                <CardTitle>Example</CardTitle>
               </CardHeader>
               <CardContent>
                 <CodeBlock
-                  code={`# Enable auto_evolve for skill acquisition
-ms = MemSient(
-    api_key="...",
-    auto_evolve=True,
-)
-
-# Observe execution to learn skills
-ms.ingest(
-    {[task="Analyze stock for entry point",
-    execution_trace={...},
-    outcome="Success: +12% return",
-    domain="trading"]}
-)
-# → Skill extracted: "oversold_entry_detection" (success: 78%)
-
-# Skills compose to create strategies
-strategy = ms.evolve([
-    "oversold_entry_detection",
-    "volume_confirmation",
-    "risk_management"
-])
-# → New skill: "oversold_bounce_strategy" (success: 82%)
-
-# Use skills in queries
-response = ms.query(
-    "What's the best entry for AAPL?",
-    use_skills=True,
-    skill_domain="trading"
-)`}
+                  code={`ms = MemSient(api_key="...", auto_evolve=True)
+ms.ingest({task: "...", outcome: "Success", domain: "trading"})  # → skill extracted
+response = ms.query("Best entry for AAPL?", use_skills=True, skill_domain="trading")`}
                   label="skills-example"
                   onCopy={copyCode}
                   copied={copiedCode === "skills-example"}
@@ -921,29 +653,13 @@ response = ms.query(
 
             <Card>
               <CardHeader>
-                <CardTitle>Codebase Learning</CardTitle>
-                <CardDescription>Learn coding practices from your codebase</CardDescription>
+                <CardTitle>Codebase</CardTitle>
               </CardHeader>
               <CardContent>
                 <CodeBlock
-                  code={`# MemSient learns from your codebase
-ms.ingest("./my-project")
-
-# After learning, MemSient has acquired skills:
+                  code={`ms.ingest("./my-project")
 skills = ms.get_nodes(domain="coding")
-# → [
-#     "FastAPI_async_patterns",
-#     "SQLAlchemy_query_optimization",
-#     "Pydantic_validation_approach",
-#     "Testing_with_pytest_fixtures"
-# ]
-
-# When you ask for help, MemSient uses its skill bank:
-response = ms.query(
-    "Add a new user registration endpoint",
-    use_skills=True
-)
-# → Generates code matching your exact patterns`}
+response = ms.query("Add registration endpoint", use_skills=True)`}
                   label="codebase-learning"
                   onCopy={copyCode}
                   copied={copiedCode === "codebase-learning"}
@@ -955,36 +671,22 @@ response = ms.query(
 
       case "multi-tenancy":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Multi-Tenancy</h1>
-              <p className="text-lg text-muted-foreground">
-                Complete data separation between customers and users
-              </p>
+              <h1 className="text-3xl font-bold mb-1">Multi-Tenancy</h1>
+              <p className="text-sm text-muted-foreground">Data isolation: org → project → user → session.</p>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>Isolation Levels</CardTitle>
+                <CardTitle>Levels</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Organization</h3>
-                    <p className="text-sm text-muted-foreground">Company-level isolation for B2B SaaS</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Project</h3>
-                    <p className="text-sm text-muted-foreground">Team/App-level isolation for multiple products</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">User</h3>
-                    <p className="text-sm text-muted-foreground">Individual-level isolation for personalization</p>
-                  </div>
-                  <div className="p-4 border rounded-lg">
-                    <h3 className="font-medium mb-1">Session</h3>
-                    <p className="text-sm text-muted-foreground">Conversation-level isolation for chat context</p>
-                  </div>
+                <div className="flex flex-wrap gap-2 text-sm">
+                  <Badge variant="outline">Organization</Badge>
+                  <Badge variant="outline">Project</Badge>
+                  <Badge variant="outline">User</Badge>
+                  <Badge variant="outline">Session</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -1014,31 +716,15 @@ ms = MemSient(api_key="...", project_id="legal_assistant")`}
 
       case "mcp":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">MCP Integration</h1>
-              <p className="text-lg text-muted-foreground">
-                Native Model Context Protocol support for AI frameworks
-              </p>
+              <h1 className="text-3xl font-bold mb-1">MCP Integration</h1>
+              <p className="text-sm text-muted-foreground">Model Context Protocol — Claude, Cursor, etc.</p>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>What is MCP?</CardTitle>
-                <CardDescription>Model Context Protocol by Anthropic</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">
-                  MCP is a standard protocol for AI-tool integration. MemSient provides native MCP support,
-                  making it easy to add memory capabilities to any MCP-compatible AI framework like Claude, Cursor, and more.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>MCP Server Configuration</CardTitle>
-                <CardDescription>Add to your claude_desktop_config.json or Cursor settings</CardDescription>
+                <CardTitle>Config</CardTitle>
               </CardHeader>
               <CardContent>
                 <CodeBlock
@@ -1063,65 +749,16 @@ ms = MemSient(api_key="...", project_id="legal_assistant")`}
 
             <Card>
               <CardHeader>
-                <CardTitle>MCP Tools</CardTitle>
-                <CardDescription>Available tools exposed via MCP</CardDescription>
+                <CardTitle>Tools</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  <div className="p-3 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">memsient_ingest</h4>
-                    <p className="text-xs text-muted-foreground">Ingest content to memory with automatic extraction</p>
-                  </div>
-                  <div className="p-3 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">memsient_query</h4>
-                    <p className="text-xs text-muted-foreground">Query memory with natural language</p>
-                  </div>
-                  <div className="p-3 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">memsient_search</h4>
-                    <p className="text-xs text-muted-foreground">Semantic search for entities</p>
-                  </div>
-                  <div className="p-3 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">memsient_evolve</h4>
-                    <p className="text-xs text-muted-foreground">Trigger memory evolution</p>
-                  </div>
-                  <div className="p-3 border rounded-lg">
-                    <h4 className="font-medium text-sm mb-1">memsient_get_context</h4>
-                    <p className="text-xs text-muted-foreground">Get assembled context for prompt</p>
-                  </div>
+                <div className="flex flex-wrap gap-2 text-sm font-mono">
+                  <Badge variant="secondary">memsient_ingest</Badge>
+                  <Badge variant="secondary">memsient_query</Badge>
+                  <Badge variant="secondary">memsient_search</Badge>
+                  <Badge variant="secondary">memsient_evolve</Badge>
+                  <Badge variant="secondary">memsient_get_context</Badge>
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Cursor Integration Example</CardTitle>
-                <CardDescription>Add memory to your Cursor AI assistant</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <CodeBlock
-                  code={`// .cursor/mcp.json
-{
-  "mcpServers": {
-    "memsient": {
-      "command": "npx",
-      "args": ["-y", "@memsient/mcp-server"],
-      "env": {
-        "MEMSIENT_API_KEY": "\${MEMSIENT_API_KEY}",
-        "MEMSIENT_PROJECT_ID": "cursor_memory"
-      }
-    }
-  }
-}
-
-// The AI assistant can now:
-// 1. Remember project context across sessions
-// 2. Learn user preferences over time
-// 3. Recall previous debugging solutions
-// 4. Track codebase architecture decisions`}
-                  label="cursor-integration"
-                  onCopy={copyCode}
-                  copied={copiedCode === "cursor-integration"}
-                />
               </CardContent>
             </Card>
           </div>
@@ -1129,52 +766,33 @@ ms = MemSient(api_key="...", project_id="legal_assistant")`}
 
       case "sdk":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">SDKs & APIs</h1>
-              <p className="text-lg text-muted-foreground">
-                Choose your preferred integration method
-              </p>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Python SDK</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CodeBlock
-                    code={`pip install memsient`}
-                    label="python-install"
-                    onCopy={copyCode}
-                    copied={copiedCode === "python-install"}
-                  />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>TypeScript SDK</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CodeBlock
-                    code={`npm install @memsient/sdk`}
-                    label="typescript-install"
-                    onCopy={copyCode}
-                    copied={copiedCode === "typescript-install"}
-                  />
-                </CardContent>
-              </Card>
+              <h1 className="text-3xl font-bold mb-1">SDKs & APIs</h1>
+              <p className="text-sm text-muted-foreground">Python or REST.</p>
             </div>
 
             <Card>
               <CardHeader>
+                <CardTitle>Python</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CodeBlock
+                  code={`pip install memsient`}
+                  label="python-install"
+                  onCopy={copyCode}
+                  copied={copiedCode === "python-install"}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
                 <CardTitle>REST API</CardTitle>
-                <CardDescription>Standard HTTP API for any language</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground mb-3">
-                  Use the GraphMem REST API with base URL below. See <strong>GraphMem REST API</strong> in the sidebar for the full endpoint reference.
+                  Base URL below. Full reference: <strong>GraphMem REST API</strong> in sidebar.
                 </p>
                 <CodeBlock
                   code={`# Base URL (production)
@@ -1205,13 +823,11 @@ curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
 
       case "rest-api-reference":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-5xl mx-auto px-4 md:px-8">
             <div>
               <Badge className="mb-2">Production API</Badge>
-              <h1 className="text-3xl font-bold mb-2">GraphMem REST API Reference</h1>
-              <p className="text-lg text-muted-foreground">
-                Full HTTP API for memory, ingestion, query, and evolution. Use this base URL for frontend and server integration.
-              </p>
+              <h1 className="text-3xl font-bold mb-1">GraphMem REST API</h1>
+              <p className="text-sm text-muted-foreground">Memory, ingest, query, evolve. Base URL below.</p>
             </div>
 
             <Alert className="bg-primary/5 border-primary/20">
@@ -1226,8 +842,8 @@ curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
 
             <Card>
               <CardHeader>
-                <CardTitle>Endpoint Summary</CardTitle>
-                <CardDescription>All endpoints use API prefix /api/v1. Pass user_id as query param for multi-tenancy.</CardDescription>
+                <CardTitle>Endpoints</CardTitle>
+                <CardDescription>Prefix /api/v1; pass user_id for multi-tenancy.</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
@@ -1265,11 +881,10 @@ curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
             <Card>
               <CardHeader>
                 <CardTitle>Quick examples</CardTitle>
-                <CardDescription>Copy-paste curl examples (replace user_id and memory_id as needed)</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4">
                 <div>
-                  <h3 className="font-medium mb-2">Create memory</h3>
+                  <h3 className="font-medium text-sm mb-1">Create memory</h3>
                   <CodeBlock
                     code={`curl -X POST ${GRAPHMEM_BASE_URL}/api/v1/memory/create \\
   -H "Content-Type: application/json" \\
@@ -1280,7 +895,7 @@ curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
                   />
                 </div>
                 <div>
-                  <h3 className="font-medium mb-2">Ingest text (sync)</h3>
+                  <h3 className="font-medium text-sm mb-1">Ingest (sync)</h3>
                   <CodeBlock
                     code={`curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/text?user_id=user-123&async_mode=false" \\
   -H "Content-Type: application/json" \\
@@ -1294,7 +909,7 @@ curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
                   />
                 </div>
                 <div>
-                  <h3 className="font-medium mb-2">Ingest text (async) — then poll status</h3>
+                  <h3 className="font-medium text-sm mb-1">Ingest (async) + poll status</h3>
                   <CodeBlock
                     code={`# Returns 202 with request_id
 curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/text?user_id=user-123&async_mode=true" \\
@@ -1309,7 +924,7 @@ curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/status/<request_id>"`}
                   />
                 </div>
                 <div>
-                  <h3 className="font-medium mb-2">Query memory</h3>
+                  <h3 className="font-medium text-sm mb-1">Query</h3>
                   <CodeBlock
                     code={`curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123&query_mode=semantic" \\
   -H "Content-Type: application/json" \\
@@ -1325,7 +940,7 @@ curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/status/<request_id>"`}
                   />
                 </div>
                 <div>
-                  <h3 className="font-medium mb-2">Get memory / List nodes / Get graph</h3>
+                  <h3 className="font-medium text-sm mb-1">Get / List nodes / Graph</h3>
                   <CodeBlock
                     code={`# Get memory metadata
 curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/my-memory-1?user_id=user-123"
@@ -1341,7 +956,7 @@ curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/my-memory-1/graph?user_id=user-1
                   />
                 </div>
                 <div>
-                  <h3 className="font-medium mb-2">Trigger evolution</h3>
+                  <h3 className="font-medium text-sm mb-1">Evolve</h3>
                   <CodeBlock
                     code={`curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/evolve?user_id=user-123" \\
   -H "Content-Type: application/json" \\
@@ -1358,11 +973,9 @@ curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/my-memory-1/graph?user_id=user-1
               <CardHeader>
                 <CardTitle>Notes</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2 text-sm text-muted-foreground">
-                <p>• <strong>user_id</strong> is required as a query parameter on most endpoints for multi-tenancy.</p>
-                <p>• <strong>async_mode=true</strong> on ingest or evolve returns 202 with <code className="bg-muted px-1 rounded">request_id</code>; poll <code className="bg-muted px-1 rounded">GET /api/v1/memory/ingest/status/{`{request_id}`}`</code> for progress.</p>
-                <p>• Query supports <code className="bg-muted px-1 rounded">query_mode</code>: semantic, exact, graph_traversal. Set <code className="bg-muted px-1 rounded">include_answer: false</code> for retrieval-only (no LLM).</p>
-                <p>• Structured ingest uses <code className="bg-muted px-1 rounded">source_id</code> and <code className="bg-muted px-1 rounded">target_id</code> (node IDs) in edges; create nodes first or use IDs from list.</p>
+              <CardContent className="text-sm text-muted-foreground space-y-1">
+                <p>• <code>user_id</code> required. <code>async_mode=true</code> → 202 + <code>request_id</code>; poll status endpoint.</p>
+                <p>• <code>query_mode</code>: semantic, exact, graph_traversal. <code>include_answer: false</code> = retrieval only.</p>
               </CardContent>
             </Card>
           </div>
@@ -1370,80 +983,43 @@ curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/my-memory-1/graph?user_id=user-1
 
       case "use-cases":
         return (
-          <div className="space-y-6">
+          <div className="space-y-8 max-w-4xl mx-auto px-4 md:px-8">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Use Cases</h1>
-              <p className="text-lg text-muted-foreground">
-                Real-world applications of MemSient
-              </p>
+              <h1 className="text-3xl font-bold mb-1">Use Cases</h1>
+              <p className="text-sm text-muted-foreground">Where MemSient fits.</p>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-3 md:grid-cols-2">
               <Card>
-                <CardHeader>
-                  <CardTitle>Coding AI Assistants</CardTitle>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">Coding (Cursor, Cody)</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Cursor, Windsurf, Cody, Continue
-                  </p>
-                  <ul className="space-y-1 text-sm text-muted-foreground">
-                    <li>✅ Project knowledge and architecture decisions</li>
-                    <li>✅ Developer preferences and coding style</li>
-                    <li>✅ Session context across files</li>
-                    <li>✅ Bug fixes and solutions</li>
-                  </ul>
+                <CardContent className="text-sm text-muted-foreground">
+                  Project context, preferences, session memory, bug fixes.
                 </CardContent>
               </Card>
-
               <Card>
-                <CardHeader>
-                  <CardTitle>Legal AI Assistants</CardTitle>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">Legal (Harvey, Casetext)</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Harvey, Casetext, LexisNexis AI
-                  </p>
-                  <ul className="space-y-1 text-sm text-muted-foreground">
-                    <li>✅ Case knowledge graph</li>
-                    <li>✅ Temporal legal knowledge</li>
-                    <li>✅ Precedent evolution tracking</li>
-                    <li>✅ Conflict resolution</li>
-                  </ul>
+                <CardContent className="text-sm text-muted-foreground">
+                  Case graph, temporal knowledge, precedent tracking.
                 </CardContent>
               </Card>
-
               <Card>
-                <CardHeader>
-                  <CardTitle>Research Assistants</CardTitle>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">Research (Elicit, Consensus)</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Elicit, Consensus, Semantic Scholar
-                  </p>
-                  <ul className="space-y-1 text-sm text-muted-foreground">
-                    <li>✅ Knowledge synthesis across papers</li>
-                    <li>✅ Claim tracking and evolution</li>
-                    <li>✅ Citation relationships</li>
-                    <li>✅ Research timeline</li>
-                  </ul>
+                <CardContent className="text-sm text-muted-foreground">
+                  Synthesis, claim evolution, citations, timeline.
                 </CardContent>
               </Card>
-
               <Card>
-                <CardHeader>
-                  <CardTitle>Financial Trading Agents</CardTitle>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">Trading (Bloomberg, Kensho)</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Bloomberg, Kensho, Two Sigma
-                  </p>
-                  <ul className="space-y-1 text-sm text-muted-foreground">
-                    <li>✅ Market regime memory</li>
-                    <li>✅ Temporal relationships</li>
-                    <li>✅ Signal evolution</li>
-                    <li>✅ Trading skill banks</li>
-                  </ul>
+                <CardContent className="text-sm text-muted-foreground">
+                  Regime memory, temporal signals, skill banks.
                 </CardContent>
               </Card>
             </div>
@@ -1456,7 +1032,7 @@ curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/my-memory-1/graph?user_id=user-1
   };
 
   return (
-    <div className="flex h-full flex-col gap-6 lg:flex-row">
+    <div className="flex h-screen flex-col gap-6 lg:flex-row overflow-hidden">
       {/* Sidebar */}
       <Card className="w-full shrink-0 lg:w-64 lg:max-w-xs">
         <CardHeader className="pb-3">
@@ -1483,27 +1059,18 @@ curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/my-memory-1/graph?user_id=user-1
       </Card>
 
       {/* Main Content */}
-      <ScrollArea className="flex-1 min-h-0">
-        <div className="space-y-8 pb-8 pr-4">
+      <ScrollArea className="flex-1 min-h-0 overflow-auto">
+        <div className="space-y-8 pb-8 pr-4 min-h-full">
           {renderSection()}
 
           {/* Help Section */}
           {activeSection === "overview" && (
           <Card className="bg-muted/50">
-            <CardContent className="p-6 flex items-center justify-between">
-              <div>
-                <h3 className="font-medium mb-1">Need Help?</h3>
-                <p className="text-sm text-muted-foreground">
-                  Join our community or contact support
-                </p>
-              </div>
+            <CardContent className="p-4 flex items-center justify-between">
+              <p className="text-sm text-muted-foreground">Need help?</p>
               <div className="flex gap-2">
-                <Button variant="outline" size="sm">
-                  Discord <ExternalLink className="ml-1 w-3 h-3" />
-                </Button>
-                <Button variant="outline" size="sm">
-                  GitHub <ExternalLink className="ml-1 w-3 h-3" />
-                </Button>
+                <Button variant="outline" size="sm">Discord <ExternalLink className="ml-1 w-3 h-3" /></Button>
+                <Button variant="outline" size="sm">GitHub <ExternalLink className="ml-1 w-3 h-3" /></Button>
               </div>
             </CardContent>
           </Card>

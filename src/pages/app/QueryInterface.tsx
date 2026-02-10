@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,23 +7,28 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { 
-  Send, 
-  Upload, 
-  Github, 
-  FileText, 
-  Brain, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Send,
+  Upload,
+  Github,
+  FileText,
+  Brain,
   Link as LinkIcon,
   X,
   Loader2,
   CheckCircle,
   Clock,
-  ChevronRight,
-  Info,
-  Tag
+  Tag,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { memoryApi } from "@/lib/api";
 
 interface Source {
   id: string;
@@ -48,107 +53,90 @@ interface ConnectedSource {
   status: "ready" | "processing";
 }
 
-const mockSources: Source[] = [
-  {
-    id: "1",
-    title: "Q4 Revenue Report.pdf",
-    type: "document",
-    snippet: "Revenue increased by 23% YoY to $5.2B in Q4 2024. The acquisition of TechStart contributed $200M...",
-    relevance: 0.95,
-  },
-  {
-    id: "2",
-    title: "src/api/auth.ts",
-    type: "github",
-    snippet: "export async function authenticate(token: string): Promise<User> { const decoded = jwt.verify(token...",
-    relevance: 0.88,
-  },
-  {
-    id: "3",
-    title: "Product Roadmap.docx",
-    type: "document",
-    snippet: "Phase 3 focuses on skill acquisition engine, scheduled for Q2 2025. Key milestones include...",
-    relevance: 0.82,
-  },
-];
-
-// Mock memory data - in production, this would come from an API
-const mockMemories: Record<string, any> = {
-  mem_1: {
-    id: "mem_1",
-    title: "Acme Corp",
-    type: "Company",
-    description: "Technology company specializing in AI solutions. Founded in 2020.",
-    tags: ["technology", "AI", "enterprise"]
-  },
-  mem_2: {
-    id: "mem_2",
-    title: "Jane Smith",
-    type: "Person",
-    description: "CEO of Acme Corp since 2022. Previously worked at TechGiant.",
-    tags: ["executive", "leadership"]
-  },
-  mem_3: {
-    id: "mem_3",
-    title: "Q4 2024 Revenue Target",
-    type: "Concept",
-    description: "Revenue target of $50M for Q4 2024, up 23% from previous quarter.",
-    tags: ["financial", "targets", "Q4"]
-  },
-  mem_4: {
-    id: "mem_4",
-    title: "TechStart Inc Acquisition",
-    type: "Event",
-    description: "Acquisition of TechStart Inc for $800M. Expected to close in Q1 2025.",
-    tags: ["acquisition", "M&A", "Q1-2025"]
-  },
-  mem_5: {
-    id: "mem_5",
-    title: "API Authentication Flow",
-    type: "Concept",
-    description: "OAuth 2.0 based authentication flow with JWT tokens for API access.",
-    tags: ["API", "authentication", "security"]
-  },
-  mem_6: {
-    id: "mem_6",
-    title: "Sarah Chen",
-    type: "Person",
-    description: "VP Product at Acme Corp. Leads product strategy and roadmap.",
-    tags: ["product", "leadership"]
-  },
-};
+interface AsyncIngestJob {
+  request_id: string;
+  status: string;
+  memory_id?: string;
+  user_id?: string;
+  kind?: string;
+  nodes_created?: number;
+  edges_created?: number;
+  error?: string;
+  processing_time_ms?: number;
+  finished_at?: string;
+  label?: string; // e.g. "Pasted text" or file name
+}
 
 export default function QueryInterface() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const memoryId = searchParams.get("memoryId");
+  const { user } = useAuth();
+  const userId = user?.id ?? "";
   const [query, setQuery] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [ingestText, setIngestText] = useState("");
+  const [ingesting, setIngesting] = useState(false);
   const [connectedSources, setConnectedSources] = useState<ConnectedSource[]>([]);
+  const [memoryStats, setMemoryStats] = useState<{ ingestion_count: number } | null>(null);
+  const [sourceModal, setSourceModal] = useState<Source | null>(null);
+  const [useAsyncIngest, setUseAsyncIngest] = useState(false);
+  const [asyncJobs, setAsyncJobs] = useState<AsyncIngestJob[]>([]);
   const [githubUrl, setGithubUrl] = useState("");
+  const [includeAnswer, setIncludeAnswer] = useState(true);
   const { toast } = useToast();
 
-  const currentMemory = memoryId ? mockMemories[memoryId] : null;
-
-  // Initialize with a welcome message about the memory if one is selected
+  // Fetch memory stats (ingestion_count) when memory is selected
   useEffect(() => {
-    if (currentMemory) {
-      const welcomeMessage: Message = {
+    if (!memoryId || !userId) {
+      setMemoryStats(null);
+      return;
+    }
+    memoryApi.get(memoryId, userId).then(
+      (m) => setMemoryStats({ ingestion_count: m.ingestion_count ?? 0 }),
+      () => setMemoryStats(null)
+    );
+  }, [memoryId, userId]);
+
+  useEffect(() => {
+    if (memoryId && userId) {
+      const welcome: Message = {
         id: `welcome-${memoryId}`,
         role: "assistant",
-        content: `I'm ready to help you explore information about "${currentMemory.title}". This is a ${currentMemory.type} in your knowledge graph.\n\n${currentMemory.description}\n\nWhat would you like to know about ${currentMemory.title}?`,
+        content: `is selected. You can ask questions about this knowledge graph, or add content via the "Documents" tab to ingest text.`,
         timestamp: new Date(),
       };
-      setMessages([welcomeMessage]);
-    } else if (!memoryId && messages.length > 0 && messages[0]?.id?.startsWith("welcome-")) {
-      // Clear welcome message if memory context is removed
+      setMessages([welcome]);
+    } else if (!memoryId) {
       setMessages([]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [memoryId, userId]);
+
+  useEffect(() => {
+    setConnectedSources([]);
+    setAsyncJobs([]);
   }, [memoryId]);
+
+  // Refresh memory stats after a successful ingest so badge updates
+  const refreshMemoryStats = () => {
+    if (memoryId && userId) {
+      memoryApi.get(memoryId, userId).then(
+        (m) => setMemoryStats({ ingestion_count: m.ingestion_count ?? 0 }),
+        () => {}
+      );
+    }
+  };
 
   const handleSendQuery = async () => {
     if (!query.trim()) return;
+    if (!memoryId || !userId) {
+      toast({
+        title: "Select a memory",
+        description: "Choose a memory from the Dashboard or create one first.",
+        variant: "destructive",
+      });
+      return;
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -156,42 +144,151 @@ export default function QueryInterface() {
       content: query,
       timestamp: new Date(),
     };
-
     setMessages((prev) => [...prev, userMessage]);
     const currentQuery = query;
     setQuery("");
     setIsLoading(true);
 
-    // Simulate API response
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Generate response with memory context if available
-    let responseContent = "";
-    if (currentMemory) {
-      responseContent = `Based on the memory about "${currentMemory.title}" (${currentMemory.type}), here's what I found regarding "${currentQuery}":\n\n`;
-      responseContent += `${currentMemory.description}\n\n`;
-      responseContent += `I can provide more details about ${currentMemory.title} and its relationships in your knowledge graph. What specific aspect would you like to explore further?`;
-    } else {
-      responseContent = `Based on your connected sources, here's what I found regarding "${currentQuery}":\n\nThe Q4 2024 revenue reached $5.2B, representing a 23% year-over-year increase. This growth was primarily driven by the TechStart acquisition which contributed $200M to the total revenue.\n\nThe authentication flow in your codebase uses JWT tokens with a standard verification process. The auth.ts file handles token validation and user session management.\n\nFor future developments, the product roadmap indicates Phase 3 will focus on skill acquisition, scheduled for Q2 2025.`;
+    try {
+      const res = await memoryApi.query(userId, memoryId, currentQuery, {
+        top_k: 10,
+        include_context: true,
+        include_answer: includeAnswer,
+      });
+      const content = includeAnswer
+        ? (res.answer ?? "No answer generated.")
+        : (res.answer || "Retrieval only — see sources below.");
+      const chunks = res.context_chunks ?? [];
+      const sources: Source[] = chunks.slice(0, 5).map((c, i) => ({
+        id: String(i),
+        title: c.source_id,
+        type: "document" as const,
+        snippet: c.content,
+        relevance: c.relevance_score,
+      }));
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content,
+        sources: sources.length ? sources : undefined,
+        timestamp: new Date(),
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (err) {
+      toast({
+        title: "Query failed",
+        description: err instanceof Error ? err.message : "Request failed",
+        variant: "destructive",
+      });
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: (Date.now() + 1).toString(),
+          role: "assistant" as const,
+          content: "Sorry, the query failed. Try again or check that this memory has ingested content.",
+          timestamp: new Date(),
+        },
+      ]);
+    } finally {
+      setIsLoading(false);
     }
-
-    const assistantMessage: Message = {
-      id: (Date.now() + 1).toString(),
-      role: "assistant",
-      content: responseContent,
-      sources: currentMemory ? [] : mockSources,
-      timestamp: new Date(),
-    };
-
-    setMessages((prev) => [...prev, assistantMessage]);
-    setIsLoading(false);
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
+  const handleIngestText = async () => {
+    if (!ingestText.trim() || !memoryId || !userId) {
+      if (!memoryId) {
+        toast({ title: "Select a memory", description: "Choose a memory from the Dashboard first.", variant: "destructive" });
+      }
+      return;
+    }
+    setIngesting(true);
+    try {
+      const result = await memoryApi.ingestText(userId, memoryId, ingestText.trim(), useAsyncIngest);
 
-    Array.from(files).forEach((file) => {
+      // Async path: queue ingest and track request_id for status checks
+      if (
+        useAsyncIngest &&
+        (result as any) &&
+        (result as any).status === "accepted" &&
+        "request_id" in (result as any)
+      ) {
+        const asyncResult = result as { status: string; request_id: string };
+        setAsyncJobs((prev) => [
+          {
+            request_id: asyncResult.request_id,
+            status: asyncResult.status,
+            memory_id: memoryId,
+            user_id: userId,
+            kind: "ingest",
+            label: "Pasted text",
+          },
+          ...prev,
+        ]);
+        toast({
+          title: "Ingestion queued",
+          description: "Async ingest started. Use \"Async ingestion jobs\" below to check status.",
+        });
+      } else {
+        // Synchronous path (or async fallback when queue not available)
+        setConnectedSources((prev) => [
+          ...prev,
+          { id: `paste-${Date.now()}`, name: "Pasted text", type: "document", status: "ready" },
+        ]);
+        refreshMemoryStats();
+        toast({ title: "Content ingested", description: "Text has been added to the knowledge graph." });
+      }
+      setIngestText("");
+    } catch (err) {
+      toast({
+        title: "Ingest failed",
+        description: err instanceof Error ? err.message : "Request failed",
+        variant: "destructive",
+      });
+    } finally {
+      setIngesting(false);
+    }
+  };
+
+  const handleCheckIngestStatus = async (requestId: string) => {
+    try {
+      const status = await memoryApi.ingestStatus(requestId);
+      setAsyncJobs((prev) =>
+        prev.map((j) =>
+          j.request_id === requestId
+            ? {
+                ...j,
+                status: status.status,
+                nodes_created: status.nodes_created,
+                edges_created: status.edges_created,
+                error: status.error,
+                processing_time_ms: status.processing_time_ms,
+                finished_at: status.finished_at,
+              }
+            : j
+        )
+      );
+      if (status.status === "completed" && memoryId && userId) {
+        refreshMemoryStats();
+        toast({ title: "Ingestion completed", description: "Async ingest finished. Memory updated." });
+      }
+      if (status.status === "failed" && status.error) {
+        toast({ title: "Ingestion failed", description: status.error, variant: "destructive" });
+      }
+    } catch (err) {
+      toast({
+        title: "Status check failed",
+        description: err instanceof Error ? err.message : "Unknown or expired request_id",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files?.length || !memoryId || !userId) return;
+    e.target.value = "";
+
+    for (const file of Array.from(files)) {
       const newSource: ConnectedSource = {
         id: Date.now().toString() + file.name,
         name: file.name,
@@ -199,20 +296,53 @@ export default function QueryInterface() {
         status: "processing",
       };
       setConnectedSources((prev) => [...prev, newSource]);
+      try {
+        const text = await file.text();
+        const result = await memoryApi.ingestText(userId, memoryId, text, useAsyncIngest);
 
-      // Simulate processing
-      setTimeout(() => {
-        setConnectedSources((prev) =>
-          prev.map((s) =>
-            s.id === newSource.id ? { ...s, status: "ready" } : s
-          )
-        );
+        if (
+          useAsyncIngest &&
+          result &&
+          typeof result === "object" &&
+          "status" in result &&
+          (result as { status: string }).status === "accepted" &&
+          "request_id" in result
+        ) {
+          const asyncResult = result as { status: string; request_id: string };
+          setAsyncJobs((prev) => [
+            {
+              request_id: asyncResult.request_id,
+              status: asyncResult.status,
+              memory_id: memoryId,
+              user_id: userId,
+              kind: "ingest",
+              label: file.name,
+            },
+            ...prev,
+          ]);
+          setConnectedSources((prev) =>
+            prev.map((s) => (s.id === newSource.id ? { ...s, status: "processing" as const } : s))
+          );
+          toast({
+            title: "Ingestion queued",
+            description: `${file.name} queued. Check "Async ingestion jobs" for status.`,
+          });
+        } else {
+          setConnectedSources((prev) =>
+            prev.map((s) => (s.id === newSource.id ? { ...s, status: "ready" as const } : s))
+          );
+          refreshMemoryStats();
+          toast({ title: "Document ingested", description: `${file.name} added to memory.` });
+        }
+      } catch (err) {
+        setConnectedSources((prev) => prev.filter((s) => s.id !== newSource.id));
         toast({
-          title: "Document processed",
-          description: `${file.name} is ready for queries`,
+          title: "Ingest failed",
+          description: err instanceof Error ? err.message : String(err),
+          variant: "destructive",
         });
-      }, 2000);
-    });
+      }
+    }
   };
 
   const handleConnectGithub = () => {
@@ -263,20 +393,99 @@ export default function QueryInterface() {
             </TabsList>
 
             <TabsContent value="documents" className="flex min-h-0 flex-1 flex-col gap-3 mt-3">
-              <label className="cursor-pointer">
+              {memoryId ? (
+                <>
+                  <p className="text-xs text-muted-foreground">Add text to memory &quot;{memoryId}&quot;</p>
+                  <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer w-fit">
+                    <input
+                      type="checkbox"
+                      checked={useAsyncIngest}
+                      onChange={(e) => setUseAsyncIngest(e.target.checked)}
+                      className="rounded border-input"
+                    />
+                    Use async ingest (queue + check status)
+                  </label>
+                  <Textarea
+                    placeholder="Paste or type text to ingest into the knowledge graph..."
+                    value={ingestText}
+                    onChange={(e) => setIngestText(e.target.value)}
+                    className="min-h-[120px] resize-none"
+                    disabled={ingesting}
+                  />
+                  <Button onClick={handleIngestText} disabled={!ingestText.trim() || ingesting} size="sm">
+                    {ingesting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                    Ingest text
+                  </Button>
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground">Select a memory from the Dashboard to ingest text.</p>
+              )}
+              <label className="cursor-pointer pt-2 border-t">
                 <input
                   type="file"
                   className="hidden"
-                  multiple
-                  accept=".pdf,.doc,.docx,.txt,.md"
+                  accept=".txt,.md"
                   onChange={handleFileUpload}
                 />
-                <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:border-primary transition-colors">
-                  <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-sm font-medium">Upload Documents</p>
-                  <p className="text-xs text-muted-foreground">PDF, DOC, TXT, MD</p>
+                <div className="border-2 border-dashed border-border rounded-lg p-3 text-center hover:border-primary transition-colors">
+                  <Upload className="w-6 h-6 mx-auto mb-1 text-muted-foreground" />
+                  <p className="text-xs font-medium">Upload .txt / .md (ingest as text)</p>
                 </div>
               </label>
+
+              {asyncJobs.length > 0 && (
+                <div className="flex min-h-0 flex-col space-y-2 pt-2 border-t">
+                  <p className="text-sm font-medium">Async ingestion jobs</p>
+                  <ScrollArea className="flex-1 max-h-40">
+                    <div className="space-y-2 pr-2">
+                      {asyncJobs.map((job) => (
+                        <div
+                          key={job.request_id}
+                          className="flex flex-col gap-1.5 p-2 rounded-lg border bg-muted/30 text-sm"
+                        >
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-mono text-xs truncate max-w-[140px]" title={job.request_id}>
+                              {job.request_id.slice(0, 8)}…
+                            </span>
+                            {job.label && (
+                              <span className="text-muted-foreground truncate">{job.label}</span>
+                            )}
+                            <Badge
+                              variant={
+                                job.status === "completed"
+                                  ? "default"
+                                  : job.status === "failed"
+                                    ? "destructive"
+                                    : "secondary"
+                              }
+                              className="text-xs shrink-0"
+                            >
+                              {job.status}
+                            </Badge>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="ml-auto h-7 text-xs"
+                              onClick={() => handleCheckIngestStatus(job.request_id)}
+                            >
+                              Check status
+                            </Button>
+                          </div>
+                          {job.status === "completed" && (job.nodes_created != null || job.edges_created != null) && (
+                            <p className="text-xs text-muted-foreground">
+                              +{job.nodes_created ?? 0} nodes, +{job.edges_created ?? 0} edges
+                              {job.processing_time_ms != null && ` · ${job.processing_time_ms}ms`}
+                            </p>
+                          )}
+                          {job.status === "failed" && job.error && (
+                            <p className="text-xs text-destructive">{job.error}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="github" className="flex min-h-0 flex-1 flex-col gap-3 mt-3">
@@ -345,15 +554,26 @@ export default function QueryInterface() {
             <div>
               <CardTitle className="text-lg">Query Interface</CardTitle>
               <CardDescription>
-                {currentMemory 
-                  ? `Chatting about ${currentMemory.title}` 
-                  : "Ask questions about your connected sources"}
+                {memoryId
+                  ? `Memory: ${memoryId} — ask questions or ingest text`
+                  : "Select a memory from the Dashboard to query or ingest"}
               </CardDescription>
             </div>
-            <Badge variant="outline" className="w-fit">
-              {connectedSources.filter((s) => s.status === "ready").length} sources ready
-            </Badge>
+            {memoryId && (
+              <Badge variant="outline" className="w-fit">
+                {memoryStats?.ingestion_count ?? "—"} ingestions
+              </Badge>
+            )}
           </div>
+
+          {!memoryId && (
+            <div className="rounded-lg border bg-muted/50 p-3 text-sm text-muted-foreground">
+              <Link to="/app" className="text-primary font-medium underline-offset-4 hover:underline">
+                Open Dashboard
+              </Link>
+              {" "}to create or select a memory, then return here to query or ingest content.
+            </div>
+          )}
 
           {/* Memory Context Banner */}
           {/* {currentMemory && (
@@ -425,7 +645,17 @@ export default function QueryInterface() {
                           : "bg-muted"
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      <p className="text-sm whitespace-pre-wrap">
+                        {message.id === `welcome-${memoryId}` ? (
+                          <>
+                            Memory{" "}
+                            <span className="font-semibold">{memoryId}</span>{" "}
+                            {message.content}
+                          </>
+                        ) : (
+                          message.content
+                        )}
+                      </p>
                       <p className="text-xs mt-2 opacity-60">
                         <Clock className="w-3 h-3 inline mr-1" />
                         {message.timestamp.toLocaleTimeString()}
@@ -441,9 +671,11 @@ export default function QueryInterface() {
                       </p>
                       <div className="grid gap-2">
                         {message.sources.map((source) => (
-                          <div
+                          <button
+                            type="button"
                             key={source.id}
-                            className="p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer"
+                            onClick={() => setSourceModal(source)}
+                            className="w-full text-left p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer"
                           >
                             <div className="flex items-center gap-2 mb-1">
                               {source.type === "document" ? (
@@ -459,7 +691,7 @@ export default function QueryInterface() {
                             <p className="text-xs text-muted-foreground line-clamp-2">
                               {source.snippet}
                             </p>
-                          </div>
+                          </button>
                         ))}
                       </div>
                     </div>
@@ -482,13 +714,24 @@ export default function QueryInterface() {
         </ScrollArea>
 
         {/* Input */}
-        <div className="shrink-0 border-t p-4">
+        <div className="shrink-0 border-t p-4 space-y-3">
+          {memoryId && (
+            <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer w-fit">
+              <input
+                type="checkbox"
+                checked={includeAnswer}
+                onChange={(e) => setIncludeAnswer(e.target.checked)}
+                className="rounded border-input"
+              />
+              Include AI answer (uncheck for retrieval-only)
+            </label>
+          )}
           <div className="flex gap-2">
             <Textarea
               placeholder={
-                currentMemory
-                  ? `Ask a question about ${currentMemory.title}...`
-                  : "Ask a question about your connected sources..."
+                memoryId
+                  ? `Ask a question about ${memoryId}...`
+                  : "Select a memory to query..."
               }
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -515,6 +758,28 @@ export default function QueryInterface() {
           </div>
         </div>
       </Card>
+
+      {/* Source content modal */}
+      <Dialog open={!!sourceModal} onOpenChange={(open) => !open && setSourceModal(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {sourceModal &&
+                (sourceModal.type === "document" ? (
+                  <FileText className="w-5 h-5 text-muted-foreground" />
+                ) : (
+                  <Github className="w-5 h-5 text-muted-foreground" />
+                ))}
+              {sourceModal?.title}
+            </DialogTitle>
+          </DialogHeader>
+          {sourceModal && (
+            <ScrollArea className="flex-1 min-h-0 rounded-md border p-4 text-sm">
+              <p className="whitespace-pre-wrap text-muted-foreground">{sourceModal.snippet}</p>
+            </ScrollArea>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
