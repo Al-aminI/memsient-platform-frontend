@@ -74,6 +74,7 @@ const plans = [
       "Audit Logs",
       "Custom Integrations",
       "SLA",
+      "<150ms query latency",
     ],
     cta: "Contact sales",
     variant: "outline" as const,

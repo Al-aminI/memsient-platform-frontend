@@ -174,12 +174,12 @@ export default function Documentation() {
               <p className="text-muted-foreground text-sm">Run in 5 minutes.</p>
             </div>
 
-            <Tabs defaultValue="python">
-              <TabsList>
-                <TabsTrigger value="python">Python</TabsTrigger>
-                <TabsTrigger value="curl">REST API</TabsTrigger>
-                <TabsTrigger value="mcp">MCP</TabsTrigger>
-              </TabsList>
+                <Tabs defaultValue="python">
+                  <TabsList>
+                    <TabsTrigger value="python">Python</TabsTrigger>
+                    <TabsTrigger value="curl">REST API</TabsTrigger>
+                    <TabsTrigger value="mcp">MCP</TabsTrigger>
+                  </TabsList>
 
               <TabsContent value="python" className="mt-4 space-y-6">
                 <Card>
@@ -193,14 +193,14 @@ export default function Documentation() {
                       onCopy={copyCode}
                       copied={copiedCode === "pip-install"}
                     />
-                  </CardContent>
-                </Card>
+              </CardContent>
+            </Card>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Step 2: Initialize</CardTitle>
-                  </CardHeader>
-                  <CardContent>
+            <Card>
+              <CardHeader>
+                <CardTitle>Step 2: Initialize</CardTitle>
+              </CardHeader>
+              <CardContent>
                     <CodeBlock
                       code={`from memsient import MemSient
 
@@ -214,14 +214,14 @@ ms = MemSient(
                       onCopy={copyCode}
                       copied={copiedCode === "init-python"}
                     />
-                  </CardContent>
-                </Card>
+              </CardContent>
+            </Card>
 
-                <Card>
-                  <CardHeader>
+            <Card>
+              <CardHeader>
                     <CardTitle>Step 3: Ingest & Query</CardTitle>
-                  </CardHeader>
-                  <CardContent>
+              </CardHeader>
+              <CardContent>
                     <CodeBlock
                       code={`# Ingest
 ms.ingest("""
@@ -239,7 +239,7 @@ print(response.confidence)  # 0.95`}
                     />
                   </CardContent>
                 </Card>
-              </TabsContent>
+                  </TabsContent>
 
               <TabsContent value="curl" className="mt-4 space-y-6">
                 <Card>
@@ -305,7 +305,7 @@ curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
                     />
                   </CardContent>
                 </Card>
-              </TabsContent>
+                  </TabsContent>
 
               <TabsContent value="mcp" className="mt-4 space-y-6">
                 <Card>
@@ -319,8 +319,8 @@ curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
                       onCopy={copyCode}
                       copied={copiedCode === "mcp-install"}
                     />
-                  </CardContent>
-                </Card>
+              </CardContent>
+            </Card>
 
                 <Card>
                   <CardHeader>
@@ -398,24 +398,24 @@ memsient_query(memory_id="my-memory-1", query="What is Acme's latest revenue?")`
               </CardHeader>
               <CardContent className="space-y-3">
                 <p className="text-sm text-muted-foreground">Create keys in Dashboard → API Keys. Copy once—not shown again.</p>
-                <div>
+                  <div>
                   <h3 className="font-medium text-sm mb-1">Usage</h3>
-                  <CodeBlock
-                    code={`# Python
+                    <CodeBlock
+                      code={`# Python
 ms = MemSient(api_key="ms_your_api_key")
 
 # REST
 curl -H "X-API-Key: ms_your_api_key" ...`}
-                    label="api-key-usage"
-                    onCopy={copyCode}
-                    copied={copiedCode === "api-key-usage"}
-                  />
-                </div>
-                <Alert>
-                  <AlertCircle className="h-4 w-4" />
+                      label="api-key-usage"
+                      onCopy={copyCode}
+                      copied={copiedCode === "api-key-usage"}
+                    />
+                  </div>
+                  <Alert>
+                    <AlertCircle className="h-4 w-4" />
                   <AlertTitle>Security</AlertTitle>
                   <AlertDescription className="text-sm">Env vars, no commits, rotate & revoke when needed.</AlertDescription>
-                </Alert>
+                  </Alert>
               </CardContent>
             </Card>
           </div>
@@ -436,7 +436,7 @@ curl -H "X-API-Key: ms_your_api_key" ...`}
               <CardContent>
                 <div className="bg-muted p-3 rounded-lg text-sm font-mono">
                   Ingest → Process → Store → Evolve
-                </div>
+                  </div>
                 <p className="text-xs text-muted-foreground mt-2">Automatic extraction and knowledge graph updates.</p>
               </CardContent>
             </Card>
@@ -772,29 +772,29 @@ ms = MemSient(api_key="...", project_id="legal_assistant")`}
               <p className="text-sm text-muted-foreground">Python or REST.</p>
             </div>
 
-            <Card>
-              <CardHeader>
+              <Card>
+                <CardHeader>
                 <CardTitle>Python</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CodeBlock
-                  code={`pip install memsient`}
-                  label="python-install"
-                  onCopy={copyCode}
-                  copied={copiedCode === "python-install"}
-                />
-              </CardContent>
-            </Card>
+                </CardHeader>
+                <CardContent>
+                  <CodeBlock
+                    code={`pip install memsient`}
+                    label="python-install"
+                    onCopy={copyCode}
+                    copied={copiedCode === "python-install"}
+                  />
+                </CardContent>
+              </Card>
 
-            <Card>
-              <CardHeader>
+              <Card>
+                <CardHeader>
                 <CardTitle>REST API</CardTitle>
-              </CardHeader>
-              <CardContent>
+                </CardHeader>
+                <CardContent>
                 <p className="text-sm text-muted-foreground mb-3">
                   Base URL below. Full reference: <strong>GraphMem REST API</strong> in sidebar.
                 </p>
-                <CodeBlock
+                  <CodeBlock
                   code={`# Base URL (production)
 ${GRAPHMEM_BASE_URL}
 
@@ -813,12 +813,12 @@ curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
   -H "Content-Type: application/json" \\
   -d '{"memory_id": "my-memory-1", "query": "What is Acme latest revenue?"}'`}
                   label="rest-api"
-                  onCopy={copyCode}
+                    onCopy={copyCode}
                   copied={copiedCode === "rest-api"}
-                />
-              </CardContent>
-            </Card>
-          </div>
+                  />
+                </CardContent>
+              </Card>
+            </div>
         );
 
       case "rest-api-reference":
@@ -885,7 +885,7 @@ curl -X POST "${GRAPHMEM_BASE_URL}/api/v1/memory/query?user_id=user-123" \\
               <CardContent className="space-y-4">
                 <div>
                   <h3 className="font-medium text-sm mb-1">Create memory</h3>
-                  <CodeBlock
+                <CodeBlock
                     code={`curl -X POST ${GRAPHMEM_BASE_URL}/api/v1/memory/create \\
   -H "Content-Type: application/json" \\
   -d '{"memory_id": "my-memory-1", "user_id": "user-123"}'`}
@@ -935,7 +935,7 @@ curl -X GET "${GRAPHMEM_BASE_URL}/api/v1/memory/ingest/status/<request_id>"`}
     "include_answer": true
   }'`}
                     label="rest-query"
-                    onCopy={copyCode}
+                  onCopy={copyCode}
                     copied={copiedCode === "rest-query"}
                   />
                 </div>

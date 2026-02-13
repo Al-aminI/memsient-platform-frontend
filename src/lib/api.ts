@@ -6,7 +6,7 @@
 const API_BASE =
   typeof import.meta !== "undefined" && import.meta.env?.VITE_API_BASE_URL != null
     ? String(import.meta.env.VITE_API_BASE_URL).replace(/\/$/, "")
-    : "http://0.0.0.0:8000";
+    : "https://graphmem-api-649404949885.us-central1.run.app";
 
 const API_PREFIX = "/api/v1";
 
@@ -169,15 +169,23 @@ export const memoryApi = {
     });
   },
 
+  /**
+   * Ingest text into a memory. With asyncMode true, request goes to Cloudflare Gateway:
+   * gateway enqueues to the consumer and returns 202 + { status: "accepted", request_id }.
+   * Poll status via ingestStatus(requestId); gateway serves status from KV (consumer updates it).
+   */
   ingestText(userId: string, memoryId: string, content: string, asyncMode = false): Promise<IngestResponse | { status: string; request_id: string }> {
-    const q = new URLSearchParams({ user_id: userId });
-    if (asyncMode) q.set("async_mode", "true");
+    const q = new URLSearchParams({ user_id: userId, async_mode: asyncMode ? "true" : "false" });
     return request(`/memory/ingest/text?${q}`, {
       method: "POST",
       body: JSON.stringify({ memory_id: memoryId, content }),
     });
   },
 
+  /**
+   * Poll async ingest/evolve status. With Cloudflare Gateway, this is served from KV
+   * (consumer writes status when processing and when completed/failed).
+   */
   ingestStatus(requestId: string): Promise<AsyncIngestStatus> {
     return request<AsyncIngestStatus>(`/memory/ingest/status/${encodeURIComponent(requestId)}`);
   },

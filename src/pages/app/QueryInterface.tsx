@@ -204,19 +204,27 @@ export default function QueryInterface() {
     setIngesting(true);
     try {
       const result = await memoryApi.ingestText(userId, memoryId, ingestText.trim(), useAsyncIngest);
+      // Cloudflare Gateway returns 202 with { status: "accepted", request_id }; allow unwrap if a proxy wraps body in .data
+      const raw = result as Record<string, unknown> | null;
+      const r = (raw && typeof raw === "object" && "data" in raw && raw.data != null && typeof raw.data === "object")
+        ? (raw.data as Record<string, unknown>)
+        : raw;
 
-      // Async path: queue ingest and track request_id for status checks
-      if (
+      // Async path (Gateway enqueues to consumer, returns 202) — clear loading immediately
+      const isAsyncAccepted =
         useAsyncIngest &&
-        (result as any) &&
-        (result as any).status === "accepted" &&
-        "request_id" in (result as any)
-      ) {
-        const asyncResult = result as { status: string; request_id: string };
+        r &&
+        typeof r === "object" &&
+        (r.status === "accepted" || r.request_id) &&
+        typeof r.request_id === "string";
+
+      if (isAsyncAccepted) {
+        setIngesting(false); // clear loading right away for async path
+        const requestId = String((r as { request_id: string }).request_id);
         setAsyncJobs((prev) => [
           {
-            request_id: asyncResult.request_id,
-            status: asyncResult.status,
+            request_id: requestId,
+            status: "accepted",
             memory_id: memoryId,
             user_id: userId,
             kind: "ingest",
@@ -224,19 +232,21 @@ export default function QueryInterface() {
           },
           ...prev,
         ]);
+        setIngestText("");
         toast({
           title: "Ingestion queued",
           description: "Async ingest started. Use \"Async ingestion jobs\" below to check status.",
         });
-      } else {
-        // Synchronous path (or async fallback when queue not available)
-        setConnectedSources((prev) => [
-          ...prev,
-          { id: `paste-${Date.now()}`, name: "Pasted text", type: "document", status: "ready" },
-        ]);
-        refreshMemoryStats();
-        toast({ title: "Content ingested", description: "Text has been added to the knowledge graph." });
+        return;
       }
+
+      // Synchronous path (or async fallback when queue not available)
+      setConnectedSources((prev) => [
+        ...prev,
+        { id: `paste-${Date.now()}`, name: "Pasted text", type: "document", status: "ready" },
+      ]);
+      refreshMemoryStats();
+      toast({ title: "Content ingested", description: "Text has been added to the knowledge graph." });
       setIngestText("");
     } catch (err) {
       toast({
